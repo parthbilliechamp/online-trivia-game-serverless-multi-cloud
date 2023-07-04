@@ -48,39 +48,40 @@ export default function RegisterationComponent() {
       }
     });
 
-    // Store User security QNA in GCP Firestore
-    // const qna = {
-    //     q1: q1,
-    //     a1: a1,
-    //     q2: q1,
-    //     a2: a1,
-    //     q3: q1,
-    //     a3: a1
-    // }
+    //Store User security QNA in GCP Firestore
+    const qna = {
+        q1: q1,
+        a1: a1,
+        q2: q2,
+        a2: a2,
+        q3: q3,
+        a3: a3,
+        email: email
+    }
 
-    //   fetch(QNA_URL, {
-    //     method: "POST",
-    //     body: JSON.stringify(qna),
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //   })
-    //     .then((response) => {
-    //       if (response.status === 201) {
-    //         setIsFireStoreCognitoSignUpSuccessful(true);
-    //       } else {
-    //         console.log("Error: Unable to register");
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       alert(e, `Error: ${error.message}`, "Error");
-    //     });
+      fetch(QNA_URL, {
+        method: "POST",
+        body: JSON.stringify(qna),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (response.status === 201) {
+            setIsFireStoreCognitoSignUpSuccessful(true);
+          } else {
+            console.log("Error: Unable to register");
+          }
+        })
+        .catch((error) => {
+          alert(e, `Error: ${error.message}`, "Error");
+        });
 
-    //     if (isCognitoSignUpSuccessful && isFireStoreSignUpSuccessful) {
-    //         alert("Registration Successfull!")
-    //     } else {
-    //         alert("Error. Unable to Register!")
-    //     }
+        if (isCognitoSignUpSuccessful && isFireStoreSignUpSuccessful) {
+            alert("Registration Successfull!")
+        } else {
+            alert("Error. Unable to Register!")
+        }
   }
 
   return (

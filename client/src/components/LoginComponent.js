@@ -24,7 +24,7 @@ export default function LoginComponent() {
 
     user.authenticateUser(authDetails, {
       onSuccess: (data) => {
-        navigate("/sfa");
+        navigate("/sfa", { state: { 'user_email': email } });
       },
       onFailure: (data) => {
         alert("Invalid credentials!!");
