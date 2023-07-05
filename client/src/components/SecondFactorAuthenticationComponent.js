@@ -108,7 +108,7 @@ export default function SecondFactorAuthenticationComponent() {
                   style={{ backgroundColor: "#4abdac" }}
                   onClick={(e) => handleAuthentication(e)}
                 >
-                  Login
+                  Submit
                 </button>
               </div>
             </div>

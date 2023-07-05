@@ -4,6 +4,7 @@ import LoginPage from "../pages/LoginPage";
 import Dashboard from "../pages/Dashboard";
 import RegistrationPage from "../pages/RegistrationPage";
 import SecondFactorAuthenticationPage from "../pages/SecondFactorAuthenticationPage";
+import UserProfilePage from "../pages/UserProfilePage";
 
 const AppRoutes = () => {
   return (
@@ -14,6 +15,7 @@ const AppRoutes = () => {
         <Route path="/signup" element={<RegistrationPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/sfa" element={<SecondFactorAuthenticationPage />} />
+        <Route path="/profile" element={<UserProfilePage />} />
       </Routes>
     </Router>
   );

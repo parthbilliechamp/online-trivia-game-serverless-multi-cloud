@@ -8,7 +8,7 @@ function AppNavbar() {
   return (
     <Navbar bg="light" expand="lg" style={{marginBottom: "40px"}}>
       <Container fluid>
-        <Navbar.Brand href="/">Energy Consumption Management</Navbar.Brand>
+        <Navbar.Brand href="/">Trivia Titans</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav
