@@ -1,0 +1,14 @@
+{
+    "type": "service_account",
+    "project_id": "trivia-392000",
+    "private_key_id": "3636b837241ddcde2fc8847cc061ba7d0cf2cde7",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCik/7OE1RVL16x\nMzKLWjvVJxv/TKZ7rCM2Pb0bD3E1l6H8/ep0gVYjqZbL85TlH2JPqsO8gTn2FQfZ\nu/1bvCuDviW3TEChKqkwjioOmMK6nmAP09bdBlnqemP1JIJQ2kG442M6TEEFXai0\nKPq3rrlA3m6pp3BkoDLB7VTKFVcUavymrgyBDjJIl4axT8vwyN6DOhCkuaeB0Aut\nlSkGJyXlrVhRLkNzQyy+9sAL0jGgTQyM/TMUyUBssGzpFgtBfLjGB9TSPZXUyZag\nG0vHTSCjUIO4V7n8Sm+J0Qeha+AYs+2gllbWxIClxWKEEx7crb/HerlrBawTs38U\nI7ewJCGfAgMBAAECggEAFQPraoj+HDrQ0zgKfw/tbwqsqE4osRDZxl+pq69N038j\nzdemsGOtllOMLhXw98McSq8IuTu9Gc2zI5aU1ABZYaC5MF33dr3Ue/XMgvGFLmld\ngn5AJnb1NYWXmS8cd0YXO8aM45LKzt5B+fPYINlBkhyOkniV4zQAC6hZjvu+M2HC\nB/G4IT9OqZJsVGrKOs7jCm1B9h/yfqJwIHXN1pHTKM8jVWFxH6K9W1nOkpV+2Nrx\nKwsAG6FTLh2Vm0rLA69zZ+GLV9CP1tERMrVvn8b7SY2+GTm09shxhUHNvobFOgUU\nNeExjEdPX4yvK/4ePaUZeX+sw1BAv24Ap8nSOazW/QKBgQDgJgQPrZ40RyVYGFLO\nnGwPxCRaJVVKEX+hOxxQqQy6bMWFh92eJX/Oa14a8aWeC/po9eykZTKCg6TEt7/7\nlb58kIOs++KGLDR1D/8Z5vaxoGIKNEJ7/LfrRCSTHlH5l3bTDhI5nZWx1TkSL1/Z\nQ4HER7vb6PQzu3bJd7H0bJnGswKBgQC5rjJJu/WQEpuZn3dyj6IuCE+8lx3gKdxS\nXZ+AVvLfEibub6mBJPjAIKRjJxNYgXzWz8uy6hwiVGuvqRjUDKvnlf3mrKQr20M4\n3lfOikVT52qQc/9MJ/41One8873vulvBBQikQfc7CHOSp/mZdo+Qv135sAfjinvV\nkvD0N/rPZQKBgQCxu7Mws1xk250y82aFyeatwbuJd1zftGxdbj+PfdxH3oPo08jY\n46cqCFzARKgsYBcZLxeLa2rXrobyLTmfxicbIoQmoDwIY/jccei3ozotspzKtpGZ\nOtSjSo8t0LbzkDR6Oggdg2T1c7sjPklkP3EgMDk3sMoiUx1ntu92fr6YnQKBgQCG\nBnfkAxkQQm4wKAvnFEhDI9qyTP3SlUSj61I7KAes/oQ9bToTruUigS1HKKhtJSJA\nR8NHxHZETV1hcRQr022t/vVDMPBbe6v8+3iz69h45LxlwmTPyrpSH37YU7OQu5qJ\nK6H+NmNHKCWMAVVH8W1VVNx3Yxl+o7IZCjSEg3e1hQKBgDcQisflOloz/KGDq+CD\nKg1OzO6PnZPQTe7EWrPDCpWnIeIlj2jnpcL3q2SWzow5gqIdI4SfqLZ2raFfMgML\nFiVB1CyHqIgn2JpQrdotGb5Y3QPTUIKgiOuEwO5zScf+uQP4jVmZTVvdizc/lv5q\nu5VITrlbhDPIU84m9aalu+1d\n-----END PRIVATE KEY-----\n",
+    "client_email": "firebase-adminsdk-aeic8@trivia-392000.iam.gserviceaccount.com",
+    "client_id": "105154118092405934144",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-aeic8%40trivia-392000.iam.gserviceaccount.com",
+    "universe_domain": "googleapis.com"
+  }
+  
