@@ -8,9 +8,6 @@ app = Flask(__name__)
 def get_stats():
 
     session = boto3.Session(
-    aws_access_key_id="AKIAYYMCQ4PPFBXJAH6Q",
-    aws_secret_access_key="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",
-    region_name="us-east-1"
     )
     dynamodb = session.resource('dynamodb')
     table = dynamodb.Table('Game_Result')
