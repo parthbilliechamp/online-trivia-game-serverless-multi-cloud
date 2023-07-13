@@ -1,13 +1,54 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
+import { CognitoUser, AuthenticationDetails, CognitoUserAttribute } from "amazon-cognito-identity-js";
 import UserPool from "../components/aws-cognito/UserPool";
+import AWS from "aws-sdk";
 
 export default function LoginComponent() {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    window.fbAsyncInit = function () {
+      window.FB.init({
+        appId: "1270492537161615",
+        cookie: true,
+        xfbml: true,
+        version: "v13.0",
+      });
+    };
+
+    (function (d, s, id) {
+      var js,
+        fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    })(document, "script", "facebook-jssdk");
+  }, []);
+
+  const handleFacebookLogin = (e) => {
+    e.preventDefault();
+
+    window.FB.login(function (response) {
+      if (response.authResponse) {
+        const accessToken = response.authResponse.accessToken;
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+          IdentityPoolId: 'us-east-1:c56770db-95d9-4390-b8bf-f13965a5a9dd',
+          Logins: {
+            'graph.facebook.com': accessToken
+          }
+        });
+        
+      } else {
+        console.log('There was a problem logging you in.');
+      }
+    });
+  };
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -24,7 +65,7 @@ export default function LoginComponent() {
 
     user.authenticateUser(authDetails, {
       onSuccess: (data) => {
-        navigate("/sfa", { state: { 'user_email': email } });
+        navigate("/sfa", { state: { user_email: email } });
       },
       onFailure: (data) => {
         alert("Invalid credentials!!");
@@ -91,6 +132,14 @@ export default function LoginComponent() {
                   onClick={(e) => handleLogin(e)}
                 >
                   Login
+                </button>
+                <button
+                  className="btn btn-primary btn-lg btn-block"
+                  type="submit"
+                  style={{ backgroundColor: "#4abdac" }}
+                  onClick={(e) => handleFacebookLogin(e)}
+                >
+                  Facebook
                 </button>
               </div>
             </div>

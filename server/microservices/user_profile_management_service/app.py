@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 import boto3
+from decimal import Decimal
 
 app = Flask(__name__)
 
@@ -7,13 +8,12 @@ app = Flask(__name__)
 def get_stats():
 
     session = boto3.Session(
-    aws_access_key_id="ASIATJZBBY7BY55IPMHX",
-    aws_secret_access_key="6j1HhFdL1qLWPyjMehXPzbYghXnrG37HA9V8a8eX",
-    aws_session_token="FwoGZXIvYXdzEL3//////////wEaDF/hIiGGKHXla4xRmiLCASbG8Kb+xPt+l24HkWmK/JVKPvpMZQczfrA/wj0o6/KmXG8q0cu8PbI14FU6XCvYpJNLrVOZhqrMzUPwX2n+UBmRTJMHYLlagrIjCi/MHJCnTPCY5PPhgUpR4ndEgyPbicUkJ1EZ+vwC9VCqy2D1UGJxE5D1S3Il92YPLs4UMpUrMre6AFf+MY9E5+x6PF6a4pJoBpHv198nUhzkxiPorvUjncVTa/tv4RfIhTwaDSias/cnHACYDJZQlV7pdga77W1WKLm8k6UGMi0jL2X69iLB/nbx3K/q41k6KDTKYczggVQNJxlDni//64ElzBCWZuiF0oCZnaU=",
+    aws_access_key_id="AKIAYYMCQ4PPFBXJAH6Q",
+    aws_secret_access_key="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",
     region_name="us-east-1"
     )
     dynamodb = session.resource('dynamodb')
-    table = dynamodb.Table('game_results')
+    table = dynamodb.Table('Game_Result')
 
     user_id = request.args.get('user_id')
     team_id = request.args.get('team_id')
@@ -21,56 +21,74 @@ def get_stats():
     if not user_id or not team_id:
         return jsonify({'error': 'User ID and team ID are required.'}), 400
 
-    response = table.scan(FilterExpression='team_id = :tid', ExpressionAttributeValues={':tid': team_id})
+    response = table.scan()
     games = response.get('Items')
 
     if not games:
         return jsonify({'error': 'No games found for the specified team.'}), 404
 
+    # Initialize variables to store the computed values
     team_total_score = 0
-    user_total_score = 0
     team_win_count = 0
+    team_total_game_count = 0
+    user_total_score = 0
     user_win_count = 0
-    team_players = set()
+    user_total_game_count = 0
 
-    for game in games:
-        team_score = game.get('team_score')
-        players_scores = game.get('players_score', {})
+    # Scan the DynamoDB table
+    response = table.scan()
 
-        if team_score:
-            team_total_score += team_score
-            team_players.update(players_scores.keys())
+    # Iterate over each item in the table
+    for item in response['Items']:
+        # Extract relevant data from the item
+        team_scores = item['teams_score']
 
-            if team_score > user_total_score:
-                team_win_count += 1
+        # Iterate over each team score in the item
+        for team_score in team_scores:
+            team_id_item = team_score['team_id']
+            team_score_val = int(Decimal(team_score['team_score']))
+            users_scores = team_score['users_score']
 
-        if user_id in players_scores:
-            user_score = players_scores[user_id]
-            user_total_score += user_score
+            # Check if the team_id matches the input team_id
+            if team_id_item == team_id:
+                team_total_score += team_score_val
+                team_name = team_score['team_name']
+                if team_score['team_result'] == 1:
+                    team_win_count += 1
+                team_total_game_count += 1
 
-            if user_score > team_score:
-                user_win_count += 1
+                for user_score in users_scores:
+                    user_id_item = list(user_score.keys())[0]
+                    user_score_val = int(Decimal(user_score[user_id_item]))
+                    
+                    if user_id_item == user_id:
+                        user_total_score += user_score_val
+                        user_win_count += 1
+                    user_total_game_count += 1
 
-    team_loss_count = len(games) - team_win_count
-    user_loss_count = len(games) - user_win_count
+    # Compute win ratios
+    if team_total_score > 0:
+        team_win_ratio = team_win_count / team_total_game_count
+    else:
+        team_win_ratio = 0
 
-    team_win_loss_ratio = team_win_count / max(team_loss_count, 1)
-    user_win_loss_ratio = user_win_count / max(user_loss_count, 1)
-
-    # Retrieve team information from your database or any other source
-    team_name = "Your Team Name"
+    if user_total_score > 0:
+        user_win_ratio = user_win_count / user_total_game_count
+    else:
+        user_win_ratio = 0
 
     response_data = {
         'team_total_score': int(team_total_score),
-        'team_win_loss_ratio': team_win_loss_ratio,
+        'team_win_ratio': team_win_ratio,
         'user_total_score': int(user_total_score),
-        'user_win_loss_ratio': user_win_loss_ratio,
+        'user_win_ratio': user_win_ratio,
         'team_id': team_id,
         'team_name': team_name,
-        'team_players': list(team_players)
+        'user_total_games_played': user_total_game_count,
+        'team_total_games_played': team_total_game_count,
+        'user_games_won': user_win_count,
+        'team_games_won': team_win_count
     }
-
-    print(response_data)
     return jsonify(response_data)
 
 if __name__ == '__main__':
