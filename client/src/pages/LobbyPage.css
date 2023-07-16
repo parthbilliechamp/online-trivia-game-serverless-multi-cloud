@@ -1,0 +1,43 @@
+.lobby-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .game-details {
+    margin-bottom: 20px;
+  }
+  
+  .game-details h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .teams-list {
+    margin-top: 30px;
+  }
+  
+  .teams-list h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .team-card {
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .team-card p {
+    margin: 5px 0;
+  }
+  
+  .team-card ul {
+    padding-left: 20px;
+  }
+  
+  .back-button {
+    margin-top: 20px;
+  }
+  
