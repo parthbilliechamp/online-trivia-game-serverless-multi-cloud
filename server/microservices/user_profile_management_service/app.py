@@ -4,6 +4,26 @@ from decimal import Decimal
 
 app = Flask(__name__)
 
+import boto3
+
+@app.route('/profile', methods=['GET'])
+def get_user_profile():
+    email = request.args.get('email')
+
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('Userprofile')
+
+    response = table.get_item(Key={'email': email})
+
+    if 'Item' in response:
+        user_profile = response['Item']
+        # Process the user profile as needed
+        return jsonify(user_profile)
+    else:
+        # Handle case when user profile is not found
+        return jsonify({'error': 'User profile not found'})
+
+
 @app.route('/stats', methods=['GET'])
 def get_stats():
 

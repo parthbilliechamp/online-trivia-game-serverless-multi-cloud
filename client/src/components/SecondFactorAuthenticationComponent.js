@@ -14,8 +14,8 @@ export default function SecondFactorAuthenticationComponent() {
   console.log(user_email);
 
   useEffect(() => {
-    //const getUserUrl = `https://us-central1-my-project-1513564562994.cloudfunctions.net/view_user_security_questions?email=${user_email}`;
-    const getUserUrl = `http://localhost:5000/sfa?email=${user_email}`;
+    const getUserUrl = `https://us-central1-my-project-1513564562994.cloudfunctions.net/view_user_security_questions?email=${user_email}`;
+    //const getUserUrl = `http://localhost:5000/sfa?email=${user_email}`;
     console.log(getUserUrl);
     fetch(getUserUrl)
       .then((response) => response.json())
