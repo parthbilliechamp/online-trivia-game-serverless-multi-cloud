@@ -6,6 +6,7 @@ import RegistrationPage from "../pages/RegistrationPage";
 import SecondFactorAuthenticationPage from "../pages/SecondFactorAuthenticationPage";
 import UserProfilePage from "../pages/UserProfilePage";
 import UserStatsPage from "../pages/UserStatsPage";
+import Test from "../components/test";
 
 const AppRoutes = () => {
   return (
@@ -18,6 +19,7 @@ const AppRoutes = () => {
         <Route path="/sfa" element={<SecondFactorAuthenticationPage />} />
         <Route path="/profile" element={<UserProfilePage />} />
         <Route path="/stats" element={<UserStatsPage />} />
+        <Route path="/test" element={<Test />} />
       </Routes>
     </Router>
   );

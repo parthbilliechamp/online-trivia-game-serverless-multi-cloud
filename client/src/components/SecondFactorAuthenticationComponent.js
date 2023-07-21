@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { AWS_API_GATEWAY_URL } from "../constants";
 
 export default function SecondFactorAuthenticationComponent() {
   const [answer1, setAnswer1] = useState(null);
@@ -10,11 +11,12 @@ export default function SecondFactorAuthenticationComponent() {
   const navigate = useNavigate();
 
   const location = useLocation();
-  const { user_email } = location.state;
-  console.log(user_email);
+  const { userData } = location.state;
+  console.log(location.state);
 
   useEffect(() => {
-    const getUserUrl = `https://us-central1-my-project-1513564562994.cloudfunctions.net/view_user_security_questions?email=${user_email}`;
+    updateUserSession();
+    const getUserUrl = `https://us-central1-my-project-1513564562994.cloudfunctions.net/view_user_security_questions?email=${userData.email}`;
     //const getUserUrl = `http://localhost:5000/sfa?email=${user_email}`;
     console.log(getUserUrl);
     fetch(getUserUrl)
@@ -23,13 +25,13 @@ export default function SecondFactorAuthenticationComponent() {
         setUserQuestionsList(data);
         console.log(userQuestionsList);
       });
-  }, [user_email]);
+  }, [userData]);
 
   const handleAuthentication = (e) => {
     e.preventDefault();
 
     const data = {
-        'user_email': user_email,
+        'user_email': userData.email,
         'user_answer1': answer1,
         'user_answer2': answer2,
         'user_answer3': answer3
@@ -44,11 +46,32 @@ export default function SecondFactorAuthenticationComponent() {
             })
                 .then((response) => response.json())
                 .then((data) => {
-                    //TODO : add session data also somewhere
-                    navigate('/dashboard')
+                    updateUserSession();
+                    localStorage.setItem('userData', JSON.stringify(userData));
+                    navigate('/dashboard', { state: { userData: userData } })
                 })
                 .catch((error) => console.log(error))
   };
+
+  const updateUserSession = () => {
+    const URL = `${AWS_API_GATEWAY_URL}/updateuserloginsession`
+    const data = {
+      "email": userData.email,
+      "status": 1
+    }
+    fetch(URL, {
+      method: "PUT",
+      headers: {
+          "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+  })
+      .then((response) => response.json())
+      .then((data) => {
+          console.log(data)
+      })
+      .catch((error) => console.log(error))
+  }
 
   return (
     <section className="vh-100">

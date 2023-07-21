@@ -17,8 +17,7 @@ export default function LoginComponent() {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        const userEmail = data.email;
-        navigate("/sfa", {state: { user_email: userEmail}});
+        navigate("/sfa", {state: { userData: data }});
       })
       .catch((error) => {
         console.error('Error retrieving user email:', error);
