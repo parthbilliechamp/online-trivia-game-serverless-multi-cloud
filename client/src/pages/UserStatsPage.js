@@ -1,29 +1,54 @@
-import React from 'react';
-import UserStatistics from '../components/user_profile_management/UserStatistics';
+import React, { useEffect, useState } from "react";
+import UserStatistics from "../components/UserStatistics";
+import { AWS_API_GATEWAY_URL } from "../constants";
 
 const UserStatsPage = () => {
+  const [user_stats, setUserStats] = useState(null);
+  const [team_data, setTeamData] = useState(null);
 
-  const user_stats = {
-    'team_total_score': '90',
-    'team_win_ratio': '0.7',
-    'user_total_score': '2',
-    'user_win_ratio': '0.5',
-    'team_name': 'RedBull',
-    'user_total_games_played': '3',
-    'team_total_games_playe': '3',
-    'user_games_won': '5',
-    'team_games_won': '4'
-}
+  useEffect(() => {
+    // Function to fetch user stats data
+    const fetchUserStats = async () => {
+      try {
+        const team_name = "RedBull";
+        const user_email = "pr514457@dal.ca";
+        const response = await fetch(
+          `${AWS_API_GATEWAY_URL}/get-user-stats?user_email=${user_email}&team_name=${team_name}`
+        );
+        const data = await response.json();
+        setUserStats(data);
+      } catch (error) {
+        console.error("Error fetching user stats:", error);
+      }
+    };
 
-const team_data = {
-    'team_name' : 'RedBull',
-    'team_members' : ['elvin@gmail.com', 'ddd@ddd.com']
-}
+    // Function to fetch team data
+    const fetchTeamData = async () => {
+      try {
+        const team_name = "RedBull"; // Replace with the team's name
+        const response = await fetch(
+          `${AWS_API_GATEWAY_URL}/get-team-stats?team_name=${team_name}`
+        );
+        const data = await response.json();
+        setTeamData(data);
+      } catch (error) {
+        console.error("Error fetching team data:", error);
+      }
+    };
+
+    // Call both API functions when the component mounts
+    fetchUserStats();
+    fetchTeamData();
+  }, []);
 
   return (
     <div className="user-stats-container">
       <h1 className="user-stats-title">User Statistics Page</h1>
-      <UserStatistics user_stats={user_stats} team_data ={team_data}/>
+      {user_stats && team_data ? (
+        <UserStatistics user_stats={user_stats} team_data={team_data} />
+      ) : (
+        <p>Loading...</p>
+      )}
     </div>
   );
 };

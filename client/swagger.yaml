@@ -1,0 +1,86 @@
+swagger: '2.0'
+info:
+  description: |
+    Trivia
+  version: 0.0.1
+  title: Title
+  contact:
+    email: blah@gmail.com
+schemes:
+  - https
+produces:
+  - application/json
+paths:
+  /v1/user-2f-authentication:
+    post:
+      operationId: user-authentication
+      summary: authenticate user
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        201:
+          description: OK
+      x-google-backend:
+        address: https://us-central1-my-project-1513564562994.cloudfunctions.net/user_authentication_2f
+        path_translation: APPEND_PATH_TO_ADDRESS
+      security:
+        - api_key: []
+  
+  /v1/view_user_security_questions:
+    get:
+      operationId: view-user-security-questions
+      summary: View User Security Questions
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        201:
+          description: OK
+      x-google-backend:
+        address: https://us-central1-my-project-1513564562994.cloudfunctions.net/view_user_security_questions
+        path_translation: APPEND_PATH_TO_ADDRESS
+      security:
+        - api_key: []
+
+  /v1/user-login-callback:
+    get:
+      operationId: user-login-callback
+      summary: authenticate user
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        201:
+          description: OK
+      x-google-backend:
+        address: https://us-central1-my-project-1513564562994.cloudfunctions.net/user-login-callback
+        path_translation: APPEND_PATH_TO_ADDRESS
+      security:
+        - api_key: []
+
+  /v1/user-registration:
+    post:
+      operationId: user-sfa-registration
+      summary: register sfa for user
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        201:
+          description: OK
+      x-google-backend:
+        address: https://us-central1-my-project-1513564562994.cloudfunctions.net/user_registration
+        path_translation: APPEND_PATH_TO_ADDRESS
+      security:
+        - api_key: []
+
+securityDefinitions:
+  api_key:
+    type: apiKey
+    name: X-API-Key
+    in: header

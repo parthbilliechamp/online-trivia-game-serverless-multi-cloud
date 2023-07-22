@@ -30,7 +30,7 @@ export default function UserProfileComponent() {
   const params = {
     Body: profilePicture,
     Bucket: S3_BUCKET,
-    Key: `user-profile-picture/${userData.UserId}`,
+    Key: `user-profile-picture/${userData.sub}.jpg`,
   };
 
   const s3Bucket = new AWS.S3({
@@ -57,18 +57,20 @@ export default function UserProfileComponent() {
       try {
         const params = {
           Bucket: S3_BUCKET,
-          Key: `user-profile-picture/${userData.UserId}`,
+          Key: `user-profile-picture/${userData.sub}.jpg`,
         };
-        const promise = s3Bucket.getSignedUrlPromise("getObject", params);
-        promise.then(
-          function (url) {
-            setSelectedImage(url);
-          },
-          function (err) {
-            console.log(err);
-          }
-        );
+
+        try {
+          s3Bucket.headObject(params);
+          const url = await s3Bucket.getSignedUrlPromise("getObject", params);
+          console.log(url);
+          setSelectedImage(url);
+        } catch (err) {
+          console.log("Object does not exist or error occurred:");
+          console.log(err);
+        }
       } catch (error) {
+        console.log("Error occurred while checking object existence:");
         console.error(error);
       }
     };
@@ -81,7 +83,7 @@ export default function UserProfileComponent() {
     e.preventDefault();
     const URL = `${AWS_API_GATEWAY_URL}/user-profile`;
     try {
-      const response = fetch(URL, {
+      fetch(URL, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -91,9 +93,7 @@ export default function UserProfileComponent() {
           name: userName,
           contact: userContact,
         }),
-      });
-      const responseBody = response.json();
-      console.log("Response Body:", responseBody);
+      }).then(alert("Profile updated successfully!!"));
     } catch (error) {
       console.error(error);
     }
@@ -102,6 +102,7 @@ export default function UserProfileComponent() {
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     setSelectedImage(URL.createObjectURL(file));
+    console.log(selectedImage);
     setProfilePicture(file);
   };
 

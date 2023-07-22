@@ -1,7 +1,11 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { AWS_API_GATEWAY_URL } from "../constants";
+import {
+  AWS_API_GATEWAY_URL,
+  GCP_API_GATEWAY_URL,
+  GCP_API_GATEWAY_KEY,
+} from "../constants";
 
 export default function SecondFactorAuthenticationComponent() {
   const [answer1, setAnswer1] = useState(null);
@@ -15,63 +19,71 @@ export default function SecondFactorAuthenticationComponent() {
   console.log(location.state);
 
   useEffect(() => {
-    updateUserSession();
-    const getUserUrl = `https://us-central1-my-project-1513564562994.cloudfunctions.net/view_user_security_questions?email=${userData.email}`;
-    //const getUserUrl = `http://localhost:5000/sfa?email=${user_email}`;
+    const getUserUrl = `${GCP_API_GATEWAY_URL}/v1/view_user_security_questions?email=${userData.email}&key=${GCP_API_GATEWAY_KEY}`;
     console.log(getUserUrl);
     fetch(getUserUrl)
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else if (response.status === 404) {
+          navigate("/register");
+        } else {
+          throw new Error("Error fetching user questions");
+        }
+      })
       .then((data) => {
         setUserQuestionsList(data);
-        console.log(userQuestionsList);
+      })
+      .catch((error) => {
+        console.log(error);
       });
-  }, [userData]);
+  }, [userData, navigate]);
 
   const handleAuthentication = (e) => {
     e.preventDefault();
 
     const data = {
-        'user_email': userData.email,
-        'user_answer1': answer1,
-        'user_answer2': answer2,
-        'user_answer3': answer3
-    }
-    const URL = `https://us-central1-my-project-1513564562994.cloudfunctions.net/user_authentication_2f`
-            fetch(URL, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(data)
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    updateUserSession();
-                    localStorage.setItem('userData', JSON.stringify(userData));
-                    navigate('/dashboard', { state: { userData: userData } })
-                })
-                .catch((error) => console.log(error))
+      user_email: userData.email,
+      user_answer1: answer1,
+      user_answer2: answer2,
+      user_answer3: answer3,
+    };
+    const URL = `${GCP_API_GATEWAY_URL}/v1/user-2f-authentication?key=${GCP_API_GATEWAY_KEY}`;
+    fetch(URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        updateUserSession();
+        localStorage.setItem("userData", JSON.stringify(userData));
+        navigate("/dashboard", { state: { userData: userData } });
+      })
+      .catch((error) => console.log(error));
   };
 
   const updateUserSession = () => {
-    const URL = `${AWS_API_GATEWAY_URL}/updateuserloginsession`
+    const URL = `${AWS_API_GATEWAY_URL}/updateuserloginsession`;
     const data = {
-      "email": userData.email,
-      "status": 1
-    }
+      email: userData.email,
+      status: 1,
+    };
     fetch(URL, {
       method: "PUT",
       headers: {
-          "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(data)
-  })
+      body: JSON.stringify(data),
+    })
       .then((response) => response.json())
       .then((data) => {
-          console.log(data)
+        console.log(data);
       })
-      .catch((error) => console.log(error))
-  }
+      .catch((error) => console.log(error));
+  };
 
   return (
     <section className="vh-100">
@@ -94,7 +106,7 @@ export default function SecondFactorAuthenticationComponent() {
                     onChange={(event) => setAnswer1(event.target.value)}
                   />
                   <label className="form-label" htmlFor="typeEmailX-2">
-                    {userQuestionsList['Q1']}
+                    {userQuestionsList["Q1"]}
                   </label>
                 </div>
 
@@ -107,7 +119,7 @@ export default function SecondFactorAuthenticationComponent() {
                     onChange={(event) => setAnswer2(event.target.value)}
                   />
                   <label className="form-label" htmlFor="typeEmailX-2">
-                    {userQuestionsList['Q2']}
+                    {userQuestionsList["Q2"]}
                   </label>
                 </div>
 
@@ -120,10 +132,9 @@ export default function SecondFactorAuthenticationComponent() {
                     onChange={(event) => setAnswer3(event.target.value)}
                   />
                   <label className="form-label" htmlFor="typeEmailX-2">
-                    {userQuestionsList['Q3']}
+                    {userQuestionsList["Q3"]}
                   </label>
                 </div>
-
 
                 <button
                   className="btn btn-primary btn-lg btn-block"
