@@ -18,7 +18,7 @@ export default function RegisterationComponent() {
   const location = useLocation();
   const { userData } = location.state;
 
-  const QNA_URL = `$${GCP_API_GATEWAY_URL}/v1/user-registration?key=${GCP_API_GATEWAY_KEY}`;
+  const QNA_URL = `${GCP_API_GATEWAY_URL}/v1/user-registration?key=${GCP_API_GATEWAY_KEY}`;
 
   const handleSignUp = (e) => {
     e.preventDefault();

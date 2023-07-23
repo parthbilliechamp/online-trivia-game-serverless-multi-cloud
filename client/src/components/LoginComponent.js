@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { GCP_API_GATEWAY_URL } from "../constants";
+import { GCP_API_GATEWAY_URL, GCP_API_GATEWAY_KEY } from "../constants";
 
 export default function LoginComponent() {
   const navigate = useNavigate();
@@ -8,7 +8,7 @@ export default function LoginComponent() {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
-    const callbackUrl = `${GCP_API_GATEWAY_URL}/user-login-callback?code=${code}`;
+    const callbackUrl = `${GCP_API_GATEWAY_URL}/v1/user-login-callback?code=${code}&key=${GCP_API_GATEWAY_KEY}`;
     fetch(callbackUrl, {
       method: "GET",
     })

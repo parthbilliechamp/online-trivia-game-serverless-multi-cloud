@@ -26,7 +26,7 @@ export default function SecondFactorAuthenticationComponent() {
         if (response.ok) {
           return response.json();
         } else if (response.status === 404) {
-          navigate("/register");
+          navigate("/register", { state: { userData: userData } });
         } else {
           throw new Error("Error fetching user questions");
         }
