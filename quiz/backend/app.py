@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request, redirect, url_for
 from flask_cors import CORS
 from google.cloud import firestore
 
@@ -8,13 +8,25 @@ CORS(app)
 # Initialize Firestore
 db = firestore.Client()
 
-# API route to fetch questions from Firestore
+@app.route('/')
+def index():
+    return redirect(url_for('get_questions'))
+
 @app.route('/api/question', methods=['GET', 'POST'])
 def get_questions():
+    category = request.args.get('category', default=None, type=str)
+    difficulty = request.args.get('difficulty', default=None, type=str)
+    print("Received category:", category)
+    print("Received difficulty:", difficulty)
+    
+
     questions = []
     # Fetch questions collection from Firestore
     collection_ref = db.collection('admingames')
-    docs = collection_ref.get()
+    query = collection_ref.where('category', '==', category).where('difficulty', '==', difficulty)
+    print('query: ', query)
+    docs = query.get()
+
     for doc in docs:
         question_data = doc.to_dict()
         question_data['id'] = doc.id
