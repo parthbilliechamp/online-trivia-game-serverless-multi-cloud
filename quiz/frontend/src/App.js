@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './styles/styles.css';
+import { useHistory } from 'react-router-dom';
+
 
 function App() {
   const [questions, setQuestions] = useState([]);
@@ -13,6 +15,7 @@ function App() {
   const [timer, setTimer] = useState(20); // Timer for each question
   const [score, setScore] = useState(0); // Individual question score
   const [totalScore, setTotalScore] = useState(0); // Total score
+  const history = useHistory(); // Initialize useHistory
 
   useEffect(() => {
     fetchQuestions();
@@ -33,9 +36,11 @@ function App() {
     return () => clearInterval(interval);
   }, [currentQuestionIndex, timer]);
 
+  const API_BASE_URL = 'http://localhost:5000'; // https://us-central1-trivia-392000.cloudfunctions.net
   const fetchQuestions = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/question', {
+      const response = await axios.get(`${API_BASE_URL}/get_questions`, {
+
         params: {
           category: selectedCategory,
           difficulty: selectedDifficulty,
@@ -111,7 +116,7 @@ function App() {
     setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
     setShowExplanation(false); // Reset explanation state when moving to the next question
     setIsAnswerCorrect(false); // Reset answer correctness state when moving to the next question
-    setShowHint(true);
+    setShowHint(false);
     setTimer(20); // Reset the timer when moving to the next question
   };
 
@@ -131,10 +136,10 @@ function App() {
     <div className="container">
       <div>
         <label>
+          {/* Select Category*/}
           Select Category:
           <select value={selectedCategory} onChange={handleCategorySelect}>
             <option value="">All</option>
-            {/* Add options based on your available categories in Firestore */}
             <option value="kk">kk</option>
             <option value="Sport">Sport</option>
             <option value="e">e</option>
@@ -142,10 +147,11 @@ function App() {
           </select>
         </label>
         <label>
+
+          {/* Select Category*/}
           Select Difficulty:
           <select value={selectedDifficulty} onChange={handleDifficultySelect}>
             <option value="">All</option>
-            {/* Add options based on your available difficulties in Firestore */}
             <option value="Easy">Easy</option>
             <option value="Medium">Medium</option>
             <option value="Hard">Hard</option>
@@ -154,6 +160,7 @@ function App() {
         <button onClick={fetchQuestions}>Fetch Questions</button>
       </div>
 
+      {/* Question and Options*/}
       {currentQuestion && (
         <div key={currentQuestion.id}>
           <h1>Category: {currentQuestion.category}</h1>
@@ -195,6 +202,7 @@ function App() {
             </li>
           </ul>
 
+          {/*Check Answer*/}
           {isAnswerChecked ? (
             <div>
               <p>
@@ -210,31 +218,36 @@ function App() {
           ) : (
             <>
               <button onClick={() => handleCheckAnswer()}>Submit</button>
-              {currentQuestion.hint && <button onClick={handleShowHint}>Hint</button>}
             </>
           )}
+
+          {/* Hint section */}
           {!shouldShowHint() && currentQuestion.hint && (
             <button onClick={handleShowHint}>Hint</button>
           )}
-          {/* Show the hint section */}
           {shouldShowHint() && (
             <div>
-              <p>{currentQuestion.hint}</p>
+              <p>Hint: {currentQuestion.hint}</p>
             </div>
           )}
 
+          {/* Buttons */}
           <button onClick={() => handlePrevQuestion()} disabled={currentQuestionIndex === 0}>
             Back
           </button>
           <button onClick={() => handleNextQuestion()} disabled={currentQuestionIndex === questions.length - 1}>
             Next
           </button>
+          <button onClick={() => history.push('/result')}>Exit</button> {/* Use history.push to navigate */}
         </div>
       )}
+
+      {/* Completion & Navigation*/}
       {questions.length > 0 && currentQuestionIndex === questions.length && (
         <div>
           <h1>Quiz Completed!</h1>
           <p>Total Score: {totalScore}</p>
+          <button onClick={() => history.push('/result')}>Exit</button> {/* Use history.push to navigate */}
         </div>
       )}
     </div>

@@ -10,10 +10,10 @@ db = firestore.Client()
 
 @app.route('/')
 def index():
-    return redirect(url_for('get_questions'))
+    return redirect(url_for('get_question'))
 
-@app.route('/api/question', methods=['GET', 'POST'])
-def get_questions():
+@app.route('/get_questions', methods=['GET', 'POST'])
+def get_question():
     category = request.args.get('category', default=None, type=str)
     difficulty = request.args.get('difficulty', default=None, type=str)
     print("Received category:", category)
