@@ -48,13 +48,9 @@ export default function SecondFactorAuthenticationComponent() {
       user_answer2: answer2,
       user_answer3: answer3,
     };
-    const URL = `${GCP_API_GATEWAY_URL}/v1/user-2f-authentication?key=${GCP_API_GATEWAY_KEY}`;
+    const URL = `${GCP_API_GATEWAY_URL}/v1/user-2f-authentication?key=${GCP_API_GATEWAY_KEY}&user_email=${userData.email}&user_answer1=${answer1}&user_answer2=${answer2}&user_answer3=${answer3}`;
     fetch(URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
+      method: "GET"
     })
       .then((response) => response.json())
       .then((data) => {

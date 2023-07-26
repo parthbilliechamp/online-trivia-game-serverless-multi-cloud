@@ -12,7 +12,7 @@ produces:
   - application/json
 paths:
   /v1/user-2f-authentication:
-    post:
+    get:
       operationId: user-authentication
       summary: authenticate user
       consumes:
@@ -63,7 +63,7 @@ paths:
         - api_key: []
 
   /v1/user-registration:
-    post:
+    get:
       operationId: user-sfa-registration
       summary: register sfa for user
       consumes:

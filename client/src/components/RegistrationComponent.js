@@ -18,28 +18,13 @@ export default function RegisterationComponent() {
   const location = useLocation();
   const { userData } = location.state;
 
-  const QNA_URL = `${GCP_API_GATEWAY_URL}/v1/user-registration?key=${GCP_API_GATEWAY_KEY}`;
+  const QNA_URL = `${GCP_API_GATEWAY_URL}/v1/user-registration?key=${GCP_API_GATEWAY_KEY}&q1=${q1}&q2=${q2}&q3=${q3}&a1=${a1}&a2=${a2}&a3=${a3}&email=${userData.email}`;
 
   const handleSignUp = (e) => {
     e.preventDefault();
 
-    //Store User security QNA in GCP Firestore
-    const qna = {
-      q1: q1,
-      a1: a1,
-      q2: q2,
-      a2: a2,
-      q3: q3,
-      a3: a3,
-      email: userData.email,
-    };
-
     fetch(QNA_URL, {
-      method: "POST",
-      body: JSON.stringify(qna),
-      headers: {
-        "Content-Type": "application/json",
-      },
+      method: "GET"
     })
       .then((response) => {
         if (response.status === 201) {
