@@ -37,5 +37,25 @@ def get_question():
 
     return jsonify(questions)
 
+@app.route('/submit_score', methods=['POST'])
+def submit_score():
+    total_score = request.json.get('total_score')
+    
+    if total_score is None:
+        return jsonify({'error': 'Total score is missing.'}), 400
+
+    # Create a new document in the "Score" collection to store the total score
+    score_data = {
+        'total_score': total_score,
+        'timestamp': firestore.SERVER_TIMESTAMP
+    }
+    
+    try:
+        score_ref = db.collection('Score').add(score_data)
+        return jsonify({'success': True, 'score_id': score_ref.id}), 200
+    except Exception as e:
+        return jsonify({'error': 'Failed to save score.', 'details': str(e)}), 500
+
+
 if __name__ == '__main__':
     app.run(debug=True)

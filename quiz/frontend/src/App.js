@@ -11,6 +11,7 @@ function App() {
   const [isAnswerCorrect, setIsAnswerCorrect] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedDifficulty, setSelectedDifficulty] = useState('');
+  const [selectedOption, setSelectedOption] = useState('');
   const [showHint, setShowHint] = useState(false);
   const [timer, setTimer] = useState(20); // Timer for each question
   const [score, setScore] = useState(0); // Individual question score
@@ -68,6 +69,7 @@ function App() {
   };
 
   const handleOptionSelect = (questionId, option) => {
+    setSelectedOption(option);
     const updatedQuestions = questions.map((q) => {
       if (q.id === questionId) {
         q.selectedOption = option === 'option1' ? q.option1 : option === 'option2' ? q.option2 : option === 'option3' ? q.option3 : q.option4;
@@ -128,8 +130,24 @@ function App() {
     setSelectedDifficulty(event.target.value);
   };
 
+  const handleQuizCompletion = async () => {
+    // Make an API call to submit the total score to Firestore
+    try {
+      const response = await axios.post(`${API_BASE_URL}/submit_score`, {
+        total_score: totalScore
+      });
+      console.log('Score submitted successfully. Score ID:', response.data.score_id);
+    } catch (error) {
+      console.log('Failed to submit score:', error);
+    }
+  
+    // Redirect or perform other actions as needed
+    // For example, navigate to a result page or show a success message
+    history.push('/result'); // Use history.push to navigate
+  };
+
   const currentQuestion = questions[currentQuestionIndex];
-  const isOptionSelected = currentQuestion && currentQuestion.selectedOption !== '';
+  //const isOptionSelected = currentQuestion && currentQuestion.selectedOption !== '';
   const isAnswerChecked = showExplanation && currentQuestion && currentQuestion.selectedOption !== '';
 
   return (
@@ -160,45 +178,39 @@ function App() {
         <button onClick={fetchQuestions}>Fetch Questions</button>
       </div>
 
-      {/* Question and Options*/}
+      {/* Question and Options */}
       {currentQuestion && (
         <div key={currentQuestion.id}>
-          <h1>Category: {currentQuestion.category}</h1>
-          <h2>Difficulty: {currentQuestion.difficulty}</h2>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <h2>Category: {currentQuestion.category}</h2>
+            <h2>Difficulty: {currentQuestion.difficulty}</h2>
+          </div>
           <div className="timer">Time Left: {timer}s</div>
           <h3>{currentQuestion.question}</h3>
           <ul className="options-container">
             <li
-              className={`option ${
-                isOptionSelected && currentQuestion.selectedOption === 'option1' ? 'selected-option' : ''
-              }`}
+              className={`option ${selectedOption === 'option1' ? 'selected-option' : ''}`}
               onClick={() => handleOptionSelect(currentQuestion.id, 'option1')}
             >
-              Option 1: {currentQuestion.option1}
+              {currentQuestion.option1}
             </li>
             <li
-              className={`option ${
-                isOptionSelected && currentQuestion.selectedOption === 'option2' ? 'selected-option' : ''
-              }`}
+              className={`option ${selectedOption === 'option2' ? 'selected-option' : ''}`}
               onClick={() => handleOptionSelect(currentQuestion.id, 'option2')}
             >
-              Option 2: {currentQuestion.option2}
+              {currentQuestion.option2}
             </li>
             <li
-              className={`option ${
-                isOptionSelected && currentQuestion.selectedOption === 'option3' ? 'selected-option' : ''
-              }`}
+              className={`option ${selectedOption === 'option3' ? 'selected-option' : ''}`}
               onClick={() => handleOptionSelect(currentQuestion.id, 'option3')}
             >
-              Option 3: {currentQuestion.option3}
+              {currentQuestion.option3}
             </li>
             <li
-              className={`option ${
-                isOptionSelected && currentQuestion.selectedOption === 'option4' ? 'selected-option' : ''
-              }`}
+              className={`option ${selectedOption === 'option4' ? 'selected-option' : ''}`}
               onClick={() => handleOptionSelect(currentQuestion.id, 'option4')}
             >
-              Option 4 {currentQuestion.option4}
+              {currentQuestion.option4}
             </li>
           </ul>
 
@@ -207,21 +219,22 @@ function App() {
             <div>
               <p>
                 {isAnswerCorrect ? (
-                  <span style={{ color: 'green' }}>Correct!</span>
+                  <span className="ans_r">Correct!</span>
                 ) : (
-                  <span style={{ color: 'red' }}>Incorrect! Correct answer: {currentQuestion.answer}</span>
+                  <span className="ans_w">Incorrect! Correct answer: {currentQuestion.answer}</span>
                 )}
               </p>
               <span>Explanation: {currentQuestion.explanation}</span>
               <p>Score for this question: {score}</p>
             </div>
           ) : (
-            <>
+            <div className="button-container">
               <button onClick={() => handleCheckAnswer()}>Submit</button>
-            </>
+            </div>
           )}
 
-          {/* Hint section */}
+          <div>
+            {/* Hint section */}
           {!shouldShowHint() && currentQuestion.hint && (
             <button onClick={handleShowHint}>Hint</button>
           )}
@@ -230,24 +243,26 @@ function App() {
               <p>Hint: {currentQuestion.hint}</p>
             </div>
           )}
+          </div>
 
           {/* Buttons */}
-          <button onClick={() => handlePrevQuestion()} disabled={currentQuestionIndex === 0}>
-            Back
-          </button>
-          <button onClick={() => handleNextQuestion()} disabled={currentQuestionIndex === questions.length - 1}>
-            Next
-          </button>
-          <button onClick={() => history.push('/result')}>Exit</button> {/* Use history.push to navigate */}
+          <div>
+            <button onClick={() => handlePrevQuestion()} disabled={currentQuestionIndex === 0}>Back</button>
+            <p></p>
+            <button onClick={() => handleNextQuestion()} disabled={currentQuestionIndex === questions.length - 1}>Next</button>
+          </div>
+          <div>
+          <button onClick={handleQuizCompletion}>Exit</button>
+          </div>
         </div>
       )}
 
-      {/* Completion & Navigation*/}
+      {/* Completion & Navigation */}
       {questions.length > 0 && currentQuestionIndex === questions.length && (
         <div>
           <h1>Quiz Completed!</h1>
           <p>Total Score: {totalScore}</p>
-          <button onClick={() => history.push('/result')}>Exit</button> {/* Use history.push to navigate */}
+          <button onClick={handleQuizCompletion}>Exit</button>
         </div>
       )}
     </div>
