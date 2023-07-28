@@ -1,0 +1,71 @@
+openapi: 3.0.0
+info:
+  title: Trivia Game API
+  version: 1.0.0
+  description: API to browse trivia games
+
+paths:
+  /dev/browsegame:
+    get:
+      summary: Get trivia games based on filters
+      description: Retrieve trivia games based on category, difficulty level, and time frame filters.
+      parameters:
+        - in: query
+          name: category
+          schema:
+            type: string
+          description: Filter by category.
+        - in: query
+          name: difficultyLevel
+          schema:
+            type: string
+          description: Filter by difficulty level.
+        - in: query
+          name: timeFrame
+          schema:
+            type: string
+          description: Filter by time frame.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    gameId:
+                      type: string
+                    category:
+                      type: string
+                    difficultyLevel:
+                      type: string
+                    timeFrame:
+                      type: string
+                    description:
+                      type: string
+                    teams:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          teamId:
+                            type: string
+                          teamName:
+                            type: string
+                          teamMembers:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                userId:
+                                  type: string
+                                userName:
+                                  type: string
+                    status:
+                      type: string
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
