@@ -17,7 +17,9 @@ function AppNavbar() {
             navbarScroll
           >
             <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/services">Services</Nav.Link>
+            <Nav.Link href="/lobby">Lobby</Nav.Link>
+            <Nav.Link href="/stats">View Stats</Nav.Link>
+            <Nav.Link href="/leaderboard">Leaderboard</Nav.Link>
             <Nav.Link href="/">Logout</Nav.Link>
           </Nav>
           <Form className="d-flex">

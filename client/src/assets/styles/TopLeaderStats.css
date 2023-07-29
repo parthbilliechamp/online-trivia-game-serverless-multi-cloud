@@ -1,0 +1,10 @@
+/* TopLeaderStats.css */
+
+.hoverEffect {
+    cursor: pointer;
+  }
+  
+  .hoverEffect:hover {
+    color: #0dcaf0;
+  }
+  
