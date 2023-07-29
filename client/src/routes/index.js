@@ -10,10 +10,24 @@ import Leaderboard from "../components/Leaderboard";
 import TopLeaderStats from "../components/TopLeaderStats";
 import CompareUserStats from "../components/CompareUserStats";
 import TeamsStatisticsPage from "../pages/TeamsStatisticsPage";
+import { ToastContainer } from 'react-toastify';
+
+import QuestionForm from '../components/AddQuestion';
+import QuestionList from '../components/DisplayQuestion'
+import UpdateQuestion from '../components/UpdateQuestion';
+import DisplayGames from '../components/game/DisplayGame';
+import AddGame from '../components/game/AddGame';
+import UpdateGame from '../components/game/UpdateGame';
+import GameQuestionPage from '../components/game/GameAddQuestion';
+import UpdateGameQuestion from '../components/game/UpdateGameQuestion';
+// import GameStats  from '../components/game_stats/GameStats';
+import HomePage from '../components/HomePage'
 
 const AppRoutes = () => {
   return (
     <Router>
+      <ToastContainer />
+
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/login" element={<LoginPage />} />
@@ -28,6 +42,20 @@ const AppRoutes = () => {
         <Route path="/user-stats" element={<UserStatsPage />} />
         <Route path="/compare-stats" element={<CompareUserStats />} />
         <Route path="/logout" element={<CompareUserStats />} />
+        <Route path="/addquestion" element={<QuestionForm />} />
+          <Route path="/admin" element={<HomePage />} />
+
+          <Route path="/getquestion" element={<QuestionList />} />
+          <Route path="/updatequestion/:questionId" element={<UpdateQuestion />} />
+          <Route path="/updategame/:gameId" element={<UpdateGame />} />
+          {/* <Route path="/gamestats" element={<GameStats />} /> */}
+
+
+          <Route path="/getgames" element={<DisplayGames />} />
+          <Route path="/gamequestion/:gameId" element={<GameQuestionPage />} />
+          <Route path="/updategamequestion/:gameId" element={<UpdateGameQuestion />} />
+
+          <Route path="/addgame" element={<AddGame />} />
       </Routes>
     </Router>
   );
