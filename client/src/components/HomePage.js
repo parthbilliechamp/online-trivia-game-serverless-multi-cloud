@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import gamesImage from '../assets/images/game.svg'; 
+import gamesImage from '../assets/images/trivia1.jpg'; 
 import questionsImage from '../assets/images/question.jpg';
 
 const HomePage = () => {
