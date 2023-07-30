@@ -19,10 +19,6 @@ function App() {
   const history = useHistory(); // Initialize useHistory
 
   useEffect(() => {
-    fetchQuestions();
-  }, [selectedCategory, selectedDifficulty]);
-
-  useEffect(() => {
     // Start the timer when the current question changes
     const interval = setInterval(() => {
       if (timer > 0) {
@@ -36,6 +32,10 @@ function App() {
     // Clean up the interval when the component unmounts or the current question changes
     return () => clearInterval(interval);
   }, [currentQuestionIndex, timer]);
+
+  const handleFetchQuestions = () => {
+    fetchQuestions();
+  };  
 
   const API_BASE_URL = 'http://localhost:5000'; // https://us-central1-trivia-392000.cloudfunctions.net
   const fetchQuestions = async () => {
@@ -61,7 +61,7 @@ function App() {
       setShowExplanation(false);
       setIsAnswerCorrect(false);
       setShowHint(false);
-      setTimer(20); // Reset the timer when fetching new questions
+      setTimer(60); // Reset the timer when fetching new questions
       setScore(0); // Reset the score when fetching new questions
     } catch (error) {
       console.log(error);
@@ -132,17 +132,18 @@ function App() {
 
   const handleQuizCompletion = async () => {
     // Make an API call to submit the total score to Firestore
+    const currentDate = new Date();
+    const date = currentDate.toISOString().split('T')[0];
     try {
       const response = await axios.post(`${API_BASE_URL}/submit_score`, {
-        total_score: totalScore
+        total_score: totalScore,
+        category: selectedCategory,
+        date: date
       });
       console.log('Score submitted successfully. Score ID:', response.data.score_id);
     } catch (error) {
       console.log('Failed to submit score:', error);
     }
-  
-    // Redirect or perform other actions as needed
-    // For example, navigate to a result page or show a success message
     history.push('/result'); // Use history.push to navigate
   };
 
@@ -157,11 +158,10 @@ function App() {
           {/* Select Category*/}
           Select Category:
           <select value={selectedCategory} onChange={handleCategorySelect}>
-            <option value="">All</option>
-            <option value="kk">kk</option>
+            <option value="">Any</option>
             <option value="Sport">Sport</option>
             <option value="e">e</option>
-            <option value="ss">Category KK</option>
+            <option value="ss">ss</option>
           </select>
         </label>
         <label>
@@ -169,22 +169,18 @@ function App() {
           {/* Select Category*/}
           Select Difficulty:
           <select value={selectedDifficulty} onChange={handleDifficultySelect}>
-            <option value="">All</option>
+            <option value="">Any</option>
             <option value="Easy">Easy</option>
             <option value="Medium">Medium</option>
             <option value="Hard">Hard</option>
           </select>
         </label>
-        <button onClick={fetchQuestions}>Fetch Questions</button>
+        <button onClick={handleFetchQuestions}>Fetch Questions</button>
       </div>
 
       {/* Question and Options */}
       {currentQuestion && (
         <div key={currentQuestion.id}>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <h2>Category: {currentQuestion.category}</h2>
-            <h2>Difficulty: {currentQuestion.difficulty}</h2>
-          </div>
           <div className="timer">Time Left: {timer}s</div>
           <h3>{currentQuestion.question}</h3>
           <ul className="options-container">
