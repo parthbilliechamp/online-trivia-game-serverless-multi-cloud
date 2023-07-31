@@ -48,9 +48,13 @@ export default function SecondFactorAuthenticationComponent() {
       user_answer2: answer2,
       user_answer3: answer3,
     };
-    const URL = `${GCP_API_GATEWAY_URL}/v1/user-2f-authentication?key=${GCP_API_GATEWAY_KEY}&user_email=${userData.email}&user_answer1=${answer1}&user_answer2=${answer2}&user_answer3=${answer3}`;
+    const URL = `https://us-central1-my-project-1513564562994.cloudfunctions.net/user_authentication_2f`;
     fetch(URL, {
-      method: "GET"
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
     })
       .then((response) => response.json())
       .then((data) => {
@@ -65,7 +69,7 @@ export default function SecondFactorAuthenticationComponent() {
     const URL = `${AWS_API_GATEWAY_URL}/updateuserloginsession`;
     const data = {
       email: userData.email,
-      status: 1,
+      status: '1',
     };
     fetch(URL, {
       method: "PUT",

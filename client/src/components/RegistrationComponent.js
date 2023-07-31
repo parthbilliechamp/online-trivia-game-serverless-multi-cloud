@@ -18,13 +18,27 @@ export default function RegisterationComponent() {
   const location = useLocation();
   const { userData } = location.state;
 
-  const QNA_URL = `${GCP_API_GATEWAY_URL}/v1/user-registration?key=${GCP_API_GATEWAY_KEY}&q1=${q1}&q2=${q2}&q3=${q3}&a1=${a1}&a2=${a2}&a3=${a3}&email=${userData.email}`;
+  const QNA_URL = `https://us-central1-my-project-1513564562994.cloudfunctions.net/user_registration`;
 
   const handleSignUp = (e) => {
     e.preventDefault();
 
+    const data = {
+      q1: q1,
+      q2: q2,
+      q3: q3,
+      a1: a1,
+      a2: a2,
+      a3: a3,
+      email: userData.email
+    }
+
     fetch(QNA_URL, {
-      method: "GET"
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
     })
       .then((response) => {
         if (response.status === 201) {
