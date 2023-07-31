@@ -22,6 +22,7 @@ import GameQuestionPage from '../components/game/GameAddQuestion';
 import UpdateGameQuestion from '../components/game/UpdateGameQuestion';
 // import GameStats  from '../components/game_stats/GameStats';
 import HomePage from '../components/HomePage'
+import LoginRedirect from "../components/LoginRedirect";
 
 const AppRoutes = () => {
   return (
@@ -29,7 +30,7 @@ const AppRoutes = () => {
       <ToastContainer />
 
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/" element={<LoginRedirect />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegistrationPage />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
