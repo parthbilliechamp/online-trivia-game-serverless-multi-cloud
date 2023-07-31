@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 function Logout() {
@@ -23,7 +23,7 @@ function Logout() {
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
-          alert("Logged out!!!");
+          alert("Logged")
         })
         .catch((error) => console.log(error));
     };
