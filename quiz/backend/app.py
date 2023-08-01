@@ -2,12 +2,18 @@ from flask import Flask, jsonify, request, redirect, url_for
 from flask_cors import CORS
 from google.cloud import firestore
 import random
+import boto3
+import uuid
+from botocore.exceptions import ClientError
 
 app = Flask(__name__)
 CORS(app)
 
 # Initialize Firestore
 db = firestore.Client()
+aws_access_key_id = 'AKIAYYMCQ4PPG2XGVKPK'
+aws_secret_access_key = '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'
+region_name = 'us-east-1'
 
 @app.route('/')
 def index():
@@ -45,6 +51,7 @@ def submit_score():
     
     if total_score is None:
         return jsonify({'error': 'Total score is missing.'}), 400
+    
     
     admingames_doc_ref = db.collection('admingames').where('category', '==', category).limit(1)
     admingames_docs = admingames_doc_ref.get()
@@ -92,8 +99,11 @@ def submit_score():
         # Add the team score data to the list of team scores
         team_scores.append(team_score_data)
 
+    score_id = str(uuid.uuid4())
+
     # Create a new document in the "Score" collection to store the total score
     score_data = {
+        'ScoreID': score_id,
         'Game id': admingames_id,
         'Date': date,
         'Category': category,
@@ -102,8 +112,49 @@ def submit_score():
     
     try:
         score_ref = db.collection('Score').add(score_data)
-        return jsonify({'success': True, 'score_id': score_ref.id}), 200
-    except Exception as e:
+
+        # Initialize Boto3 DynamoDB resource and table inside the function
+        dynamodb = boto3.resource(
+            'dynamodb',
+            aws_access_key_id=aws_access_key_id,
+            aws_secret_access_key=aws_secret_access_key,
+            region_name=region_name
+        )
+        table = dynamodb.Table('Score')
+
+        # Save the data in Amazon DynamoDB
+        score_item = {
+            'ScoreID': score_id,
+            'GameID': admingames_id,
+            'Date': date,
+            'Category': category,
+        }
+
+        # Prepare the Team Scores data to be saved in DynamoDB
+        team_scores_dynamodb = []
+        for team_score_data in team_scores:
+            team_score_dynamodb = {
+                'TeamID': team_score_data['Team id'],
+                'TeamName': team_score_data['Team name'],
+                'TeamScore': team_score_data['Team score'],
+                'UserScore': []
+            }
+
+            # Prepare the User Scores data for the current team to be saved in DynamoDB
+            for user_score_data in team_score_data['User_Score']:
+                user_score_dynamodb = {
+                    'UserID': user_score_data['user_id'],
+                    'Email': user_score_data['email'],
+                    'UserScore': user_score_data['User score']
+                }
+
+                team_score_dynamodb['UserScore'].append(user_score_dynamodb)
+            team_scores_dynamodb.append(team_score_dynamodb)
+        score_item['TeamScores'] = team_scores_dynamodb
+        table.put_item(Item=score_item)
+
+        return jsonify({'success': True, 'score_id': score_id}), 200
+    except ClientError as e:
         return jsonify({'error': 'Failed to save score.', 'details': str(e)}), 500
 
 if __name__ == '__main__':
