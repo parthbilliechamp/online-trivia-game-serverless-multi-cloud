@@ -1,24 +1,88 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import {
+  AWS_API_GATEWAY_URL,
+  GCP_API_GATEWAY_URL,
+  GCP_API_GATEWAY_KEY,
+} from "../constants";
 
 export default function SecondFactorAuthenticationComponent() {
   const [answer1, setAnswer1] = useState(null);
   const [answer2, setAnswer2] = useState(null);
   const [answer3, setAnswer3] = useState(null);
+  const [userQuestionsList, setUserQuestionsList] = useState([]);
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const location = useLocation();
+  const { userData } = location.state;
+  console.log(location.state);
+
+  useEffect(() => {
+    const getUserUrl = `${GCP_API_GATEWAY_URL}/v1/view_user_security_questions?email=${userData.email}&key=${GCP_API_GATEWAY_KEY}`;
+    console.log(getUserUrl);
+    fetch(getUserUrl)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else if (response.status === 404) {
+          navigate("/register", { state: { userData: userData } });
+        } else {
+          throw new Error("Error fetching user questions");
+        }
+      })
+      .then((data) => {
+        setUserQuestionsList(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [userData, navigate]);
+
+  const handleAuthentication = (e) => {
     e.preventDefault();
 
-    user.authenticateUser(authDetails, {
-      onSuccess: (data) => {
-        navigate("/dashboard");
+    const data = {
+      user_email: userData.email,
+      user_answer1: answer1,
+      user_answer2: answer2,
+      user_answer3: answer3,
+    };
+    const URL = `https://us-central1-my-project-1513564562994.cloudfunctions.net/user_authentication_2f`;
+    fetch(URL, {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
       },
-      onFailure: (data) => {
-        alert("Authentication Failed!!");
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        updateUserSession();
+        localStorage.setItem("userData", JSON.stringify(userData));
+        navigate("/dashboard", { state: { userData: userData } });
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const updateUserSession = () => {
+    const URL = `${AWS_API_GATEWAY_URL}/updateuserloginsession`;
+    const data = {
+      email: userData.email,
+      status: '1',
+    };
+    fetch(URL, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
       },
-    });
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -31,45 +95,44 @@ export default function SecondFactorAuthenticationComponent() {
               style={{ borderRadius: "1rem" }}
             >
               <div className="card-body p-5 text-center">
-                <h3 className="mb-5">Sign in</h3>
+                <h3 className="mb-5">Second Factor Authentication</h3>
 
                 <div className="form-outline mb-4">
                   <input
-                    type="email"
-                    id="typeEmailX-2"
+                    type="text"
+                    id="a1"
                     className="form-control form-control-lg"
-                    value={email}
-                    onChange={(event) => setEmail(event.target.value)}
+                    value={answer1}
+                    onChange={(event) => setAnswer1(event.target.value)}
                   />
                   <label className="form-label" htmlFor="typeEmailX-2">
-                    Email
+                    {userQuestionsList["Q1"]}
                   </label>
                 </div>
 
                 <div className="form-outline mb-4">
                   <input
-                    type="password"
-                    id="typePasswordX-2"
+                    type="text"
+                    id="a1"
                     className="form-control form-control-lg"
-                    value={password}
-                    onChange={(event) => setPassword(event.target.value)}
+                    value={answer2}
+                    onChange={(event) => setAnswer2(event.target.value)}
                   />
-                  <label className="form-label" htmlFor="typePasswordX-2">
-                    Password
+                  <label className="form-label" htmlFor="typeEmailX-2">
+                    {userQuestionsList["Q2"]}
                   </label>
                 </div>
 
-                {/* Checkbox */}
-                <div className="form-check d-flex justify-content-start mb-4">
+                <div className="form-outline mb-4">
                   <input
-                    className="form-check-input"
-                    type="checkbox"
-                    value=""
-                    id="form1Example3"
+                    type="text"
+                    id="a1"
+                    className="form-control form-control-lg"
+                    value={answer3}
+                    onChange={(event) => setAnswer3(event.target.value)}
                   />
-                  <label className="form-check-label" htmlFor="form1Example3">
-                    {" "}
-                    Remember password{" "}
+                  <label className="form-label" htmlFor="typeEmailX-2">
+                    {userQuestionsList["Q3"]}
                   </label>
                 </div>
 
@@ -77,9 +140,9 @@ export default function SecondFactorAuthenticationComponent() {
                   className="btn btn-primary btn-lg btn-block"
                   type="submit"
                   style={{ backgroundColor: "#4abdac" }}
-                  onClick={(e) => handleLogin(e)}
+                  onClick={(e) => handleAuthentication(e)}
                 >
-                  Login
+                  Submit
                 </button>
               </div>
             </div>

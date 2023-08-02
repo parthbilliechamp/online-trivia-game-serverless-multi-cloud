@@ -1,0 +1,19 @@
+  
+  .banner-customizable {
+    background-color: rgb(39, 83, 148);
+  }
+  
+  .submitButton-customizable {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 20px 0px 10px 0px;
+    height: 40px;
+    width: 100%;
+    color: #fff;
+    background-color: rgb(39, 83, 148);
+  }
+  
+  .submitButton-customizable:hover {
+    color: #fff;
+    background-color: gray;
+  }
