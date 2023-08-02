@@ -32,7 +32,7 @@ def get_team_name():
     chatgpt_api_url = 'https://api.openai.com/v1/chat/completions'
     headers = {
         # 'Authorization': f'Bearer {api_key}',
-        'Authorization': 'Bearer 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',
+        'Authorization': 'Bearer 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',
         'Content-Type': 'application/json'
     }
     payload = {

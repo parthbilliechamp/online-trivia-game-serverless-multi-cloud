@@ -41,7 +41,7 @@ def send_invitation_email(invited_user, invitation_link):
     sns.publish(
         TopicArn=topic_arn,
         Message=message,
-        Subject='Someone invited you to the team',
+        Subject=f'{invited_user} invited you to the team',
         MessageAttributes={
             'TargetArn': {
                 'DataType': 'String',
@@ -83,7 +83,7 @@ def lambda_handler(event, context):
     # invitation_token = generate_invitation_token()
 
     # Create the invitation link
-    invitation_link = f'https://frontendapp-7l4cel6fjq-ue.a.run.app//inviteduser?team_id={teamId}&&invited_user_id={invited_user_id}'
+    invitation_link = f'https://frontendapp-7l4cel6fjq-ue.a.run.app/inviteduser?team_id={teamId}&&invited_user_id={invited_user_id}'
 
     # Send the invitation email with accept and decline links
     send_invitation_email(invited_user, invitation_link)

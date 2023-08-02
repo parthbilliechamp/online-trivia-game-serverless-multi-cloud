@@ -9,8 +9,8 @@ const InvitedUserPage = () => {
     const getInvitedUserData = async () => {
       try {
         const params = new URLSearchParams(window.location.search);
-        const teamId = params.get("teamId");
-        const invitedUserId = params.get("invitedUserId");
+        const teamId = params.get("team_id");
+        const invitedUserId = params.get("invited_user_id");
 
         // Now, send the data to the backend endpoint
         const addInvitedUserEndpoint =
