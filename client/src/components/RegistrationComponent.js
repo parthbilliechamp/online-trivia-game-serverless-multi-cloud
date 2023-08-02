@@ -1,87 +1,57 @@
 import React from "react";
 import { useState } from "react";
-import userPool from "./aws-cognito/UserPool";
-import { CognitoUserAttribute } from "amazon-cognito-identity-js";
+import { useLocation } from "react-router-dom";
+import {
+  GCP_API_GATEWAY_URL,
+  APP_LOGIN_URL,
+  GCP_API_GATEWAY_KEY,
+} from "../constants";
 
 export default function RegisterationComponent() {
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
-  const [name, setName] = useState(null);
-  const [phoneNumber, setPhoneNumber] = useState(null);
   const [q1, setQ1] = useState(null);
   const [q2, setQ2] = useState(null);
   const [q3, setQ3] = useState(null);
   const [a1, setA1] = useState(null);
   const [a2, setA2] = useState(null);
   const [a3, setA3] = useState(null);
-  const [isCognitoSignUpSuccessful, setIsCognitoSignUpSuccessful] =
-    useState(false);
-  const [isFireStoreSignUpSuccessful, setIsFireStoreCognitoSignUpSuccessful] =
-    useState(false);
-  const QNA_URL =
-    "https://us-central1-my-project-1513564562994.cloudfunctions.net/user_registration";
+
+  const location = useLocation();
+  const { userData } = location.state;
+
+  const QNA_URL = `https://us-central1-my-project-1513564562994.cloudfunctions.net/user_registration`;
 
   const handleSignUp = (e) => {
     e.preventDefault();
-    //Save User Signup in AWS Cognito
 
-    const userAttributes = [
-      { Name: "phone_number", Value: phoneNumber },
-      { Name: "name", Value: name },
-    ];
+    const data = {
+      q1: q1,
+      q2: q2,
+      q3: q3,
+      a1: a1,
+      a2: a2,
+      a3: a3,
+      email: userData.email
+    }
 
-    const emailData = {
-      Name: "email",
-      Value: email,
-    };
-
-    const attributeList = userAttributes.map(
-      (attr) => new CognitoUserAttribute(attr)
-    );
-    attributeList.push(new CognitoUserAttribute(emailData));
-
-    userPool.signUp(email, password, attributeList, null, (err, data) => {
-      if (err) {
-        console.log(err);
-      } else {
-        setIsCognitoSignUpSuccessful(true);
-      }
-    });
-
-    // Store User security QNA in GCP Firestore
-    // const qna = {
-    //     q1: q1,
-    //     a1: a1,
-    //     q2: q1,
-    //     a2: a1,
-    //     q3: q1,
-    //     a3: a1
-    // }
-
-    //   fetch(QNA_URL, {
-    //     method: "POST",
-    //     body: JSON.stringify(qna),
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //   })
-    //     .then((response) => {
-    //       if (response.status === 201) {
-    //         setIsFireStoreCognitoSignUpSuccessful(true);
-    //       } else {
-    //         console.log("Error: Unable to register");
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       alert(e, `Error: ${error.message}`, "Error");
-    //     });
-
-    //     if (isCognitoSignUpSuccessful && isFireStoreSignUpSuccessful) {
-    //         alert("Registration Successfull!")
-    //     } else {
-    //         alert("Error. Unable to Register!")
-    //     }
-  }
+    fetch(QNA_URL, {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.status === 201) {
+          alert("Signup Successfull!!!");
+          window.location.replace(APP_LOGIN_URL);
+        } else {
+          console.log("Error: Unable to register");
+        }
+      })
+      .catch((error) => {
+        alert(e, `Error: ${error.message}`, "Error");
+      });
+  };
 
   return (
     <section className="vh-100">
@@ -94,58 +64,6 @@ export default function RegisterationComponent() {
             >
               <div className="card-body p-5 text-center">
                 <h3 className="mb-5">Sign up</h3>
-
-                <div className="form-outline mb-4">
-                  <input
-                    type="name"
-                    id="typeName-2"
-                    className="form-control form-control-lg"
-                    value={name}
-                    onChange={(event) => setName(event.target.value)}
-                  />
-                  <label className="form-label" htmlFor="typeEmailX-2">
-                    Name
-                  </label>
-                </div>
-
-                <div className="form-outline mb-4">
-                  <input
-                    type="email"
-                    id="typeEmailX-2"
-                    className="form-control form-control-lg"
-                    value={email}
-                    onChange={(event) => setEmail(event.target.value)}
-                  />
-                  <label className="form-label" htmlFor="typeEmailX-2">
-                    Email
-                  </label>
-                </div>
-
-                <div className="form-outline mb-4">
-                  <input
-                    type="password"
-                    id="typePasswordX-2"
-                    className="form-control form-control-lg"
-                    value={password}
-                    onChange={(event) => setPassword(event.target.value)}
-                  />
-                  <label className="form-label" htmlFor="typePasswordX-2">
-                    Password
-                  </label>
-                </div>
-
-                <div className="form-outline mb-4">
-                  <input
-                    type="text"
-                    id="phone"
-                    className="form-control form-control-lg"
-                    value={phoneNumber}
-                    onChange={(event) => setPhoneNumber(event.target.value)}
-                  />
-                  <label className="form-label" htmlFor="phone">
-                    Phone Number
-                  </label>
-                </div>
 
                 <div className="form-outline mb-4">
                   <input
@@ -231,7 +149,7 @@ export default function RegisterationComponent() {
                   style={{ backgroundColor: "#4abdac" }}
                   onClick={(e) => handleSignUp(e)}
                 >
-                  Sign Up
+                  Add Security Questions
                 </button>
               </div>
             </div>
