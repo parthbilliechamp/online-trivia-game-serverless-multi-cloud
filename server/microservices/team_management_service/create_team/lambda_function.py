@@ -15,12 +15,24 @@ def get_firebase_key():
     firebase_key = json.loads(secret_value)
     return firebase_key
 
+def get_openAI_key():
+    print("=================================Inside Firebase==============================")
+    secret_name = "OpenAI"
+    region_name = "us-east-1" 
+    session = boto3.session.Session()
+    client = session.client(service_name="secretsmanager", region_name=region_name)
+    secret_value = client.get_secret_value(SecretId=secret_name)["SecretString"]
+    OpenAI_API_Key = json.loads(secret_value)
+    return OpenAI_API_Key
+
 def get_team_name():
     # Call the ChatGPT API to generate the team name
     print("==========================================Inside Chat GPT function")
+    api_key = get_openAI_key()
     chatgpt_api_url = 'https://api.openai.com/v1/chat/completions'
     headers = {
-        'Authorization': 'Bearer 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',
+        # 'Authorization': f'Bearer {api_key}',
+        'Authorization': 'Bearer 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',
         'Content-Type': 'application/json'
     }
     payload = {
