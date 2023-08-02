@@ -6,14 +6,13 @@ import logging
 def http(request):
     logging.info('Login callback function triggered.')
 
-    request_json = request.get_json(silent=True)
     request_args = request.args
 
     code = request_args['code']
     logging.info(f'Received authorization code: {code}')
 
     client_id = 'umlids9prbksb5eupfj18blsd'
-    callback_uri = 'https://frontendapp-7l4cel6fjq-uc.a.run.app/login/'
+    callback_uri = 'https://frontendapp-7l4cel6fjq-ue.a.run.app/login/'
 
     token_url = f'https://trivia-quiz.auth.us-east-1.amazoncognito.com/oauth2/token'
     token_payload = {
