@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { APP_LOGOUT_URL } from '../constants';
 
 function Logout() {
 
@@ -29,6 +30,7 @@ function Logout() {
     };
 
     updateUserSession();
+    window.location.replace(APP_LOGOUT_URL);
   });
 
   return (
