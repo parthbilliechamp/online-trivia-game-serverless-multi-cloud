@@ -3,10 +3,20 @@ import boto3
 
 def lambda_handler(event, context):
     # Extract team admin and invited user information from the event
-    team_id = event['teamId']
-    team_admin = event['teamAdmin']
-    invited_user = event['invitedUser']
-    invited_user_id = event['invitedUserId']
+
+    headers = {
+        "Access-Control-Allow-Origin": '*',
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Content-Type": "application/json"
+    }
+
+    request_body = json.loads(event["body"])
+
+    team_id = request_body.get("teamId")
+    team_admin = request_body.get("teamAdmin")
+    invited_user = request_body.get("invitedUser")
+    invited_user_id = request_body.get("invitedUserId")
 
     # Create an SQS client
     sqs = boto3.client('sqs')
@@ -31,5 +41,6 @@ def lambda_handler(event, context):
     # Return a response indicating successful message submission
     return {
         'statusCode': 200,
+        'headers': headers,
         'body': json.dumps('Invitation request sent successfully')
     }

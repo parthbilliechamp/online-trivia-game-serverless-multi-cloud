@@ -20,7 +20,7 @@ def get_team_name():
     print("==========================================Inside Chat GPT function")
     chatgpt_api_url = 'https://api.openai.com/v1/chat/completions'
     headers = {
-        'Authorization': 'Bearer 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',
+        'Authorization': 'Bearer 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',
         'Content-Type': 'application/json'
     }
     payload = {
@@ -66,7 +66,7 @@ def lambda_handler(event, context):
     print("=================================Inside Function==============================")
 
     headers = {
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": '*',
         "Access-Control-Allow-Headers": "Content-Type",
         "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
         "Content-Type": "application/json"
