@@ -15,6 +15,8 @@ function AppNavbar() {
           <Nav.Link href="/lobby">Lobby</Nav.Link>
           <Nav.Link href="/stats">View Stats</Nav.Link>
           <Nav.Link href="/leaderboard">Leaderboard</Nav.Link>
+          <Nav.Link href="/CreatTeam">Create Team</Nav.Link>
+
         </Nav>
         <Form className="d-flex">
           <Form.Control

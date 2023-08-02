@@ -26,6 +26,7 @@ import LoginRedirect from "../components/LoginRedirect";
 import BrowseGamePage from "../pages/BrowseGamePage";
 import CreateTeamPage from "../pages/CreateTeamPage";
 import InvitedUserPage from "../pages/InvitedUserPage";
+import Logout from "../components/Logout";
 
 const AppRoutes = () => {
   return (
@@ -45,7 +46,7 @@ const AppRoutes = () => {
         <Route path="/team-stats" element={<TeamsStatisticsPage />} />
         <Route path="/user-stats" element={<UserStatsPage />} />
         <Route path="/compare-stats" element={<CompareUserStats />} />
-        <Route path="/logout" element={<CompareUserStats />} />
+        <Route path="/logout" element={<Logout />} />
         <Route path="/addquestion" element={<QuestionForm />} />
           <Route path="/admin" element={<HomePage />} />
 

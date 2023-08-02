@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { APP_LOGOUT_URL, AWS_API_GATEWAY_URL } from '../constants';
 
 function Logout() {
 
   const location = useLocation();
-  const { userData } = location.state;
+  const { userData } = 'user';
 
   useEffect(() => {
     const updateUserSession = () => {
@@ -27,8 +28,7 @@ function Logout() {
         })
         .catch((error) => console.log(error));
     };
-
-    updateUserSession();
+    window.location.replace(APP_LOGOUT_URL);
   });
 
   return (
