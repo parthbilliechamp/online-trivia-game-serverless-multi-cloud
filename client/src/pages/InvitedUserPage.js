@@ -28,10 +28,11 @@ const InvitedUserPage = () => {
         });
 
         // Check the response status to determine if the user was added successfully
-        if (response.ok) {
+        if (response.ok && localStorage.getItem("userId") !== "") {
           // Redirect the user to the BrowseGamePage after successful processing
           navigate("/browsegame");
         } else {
+          navigate("/login");
           // Handle any error or display an error message to the user
           console.error("Error adding invited user");
         }

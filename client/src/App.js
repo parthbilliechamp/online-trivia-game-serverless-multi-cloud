@@ -1,12 +1,12 @@
-import './App.css';
-import AppNavbar from './components/NavBar';
-import AppRoutes from './routes';
+import "./App.css";
+import AppNavbar from "./components/NavBar";
+import AppRoutes from "./routes";
 
 function App() {
   return (
     <div>
-    <AppNavbar/>
-    <AppRoutes />
+      <AppNavbar />
+      <AppRoutes />
     </div>
   );
 }

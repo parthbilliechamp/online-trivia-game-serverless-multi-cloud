@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import CreateTeamButton from "../components/CreateTeamButton";
 import TeamMemberList from "../components/TeamMemberList";
-import TeamInvitationButton from "../components/TeamInvitationButton";
+// import TeamInvitationButton from "../components/TeamInvitationButton";
 
 const CreateTeamPage = () => {
   const [teamCreated, setTeamCreated] = useState(false);

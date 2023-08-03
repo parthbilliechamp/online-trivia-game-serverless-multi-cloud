@@ -3,6 +3,7 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 import boto3
+import datetime
 
 def get_firebase_key():
     secret_name = "firestore_db_key"
@@ -73,7 +74,7 @@ def handler(event, context):
     # print("time_frame ======")
     # print(time_frame)
     
-    query = db.collection('games')
+    query = db.collection('admingames')
     print("query =====")
     print(query)
 
@@ -84,12 +85,12 @@ def handler(event, context):
 
     if difficulty_level is not None:
         print("inside difficultyLevel")
-        query = query.where('difficultyLevel', '==', difficulty_level)
+        query = query.where('difficulty', '==', difficulty_level)
         print(query)
 
     if time_frame is not None:
         print("inside timeFrame")
-        query = query.where('timeFrame', '==', time_frame)
+        query = query.where('timeframe', '==', time_frame)
         print(query)
 
     trivia_games = query.get()
@@ -136,11 +137,12 @@ def handler(event, context):
         game_info = {
             'gameId': game.id,
             'category': game_data['category'],
-            'difficultyLevel': game_data['difficultyLevel'],
-            'timeFrame': game_data['timeFrame'],
+            'difficultyLevel': game_data['difficulty'],
+            'timeFrame': game_data['timeframe'],
             'description': game_data['description'],
             'teams': teams,
-            'status': game_data['status']
+            'status': game_data['status'],
+            'start_time' : game_data['start_time']
         }
         game_list.append(game_info)
 
