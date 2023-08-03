@@ -39,6 +39,7 @@ export default function UserProfileComponent() {
   });
 
   useEffect(() => {
+    console.log('selectedImage',selectedImage)
     const URL = `${AWS_API_GATEWAY_URL}/user-profile?email=${userData.email}`;
     const fetchUserProfile = async () => {
       try {
@@ -120,64 +121,103 @@ export default function UserProfileComponent() {
   }
 
   return (
-    <div className="container" style={{ width: "70%" }}>
-      <h1>User Profile</h1>
-      <div className="d-flex align-items-center mb-3">
-        <img
-          src={selectedImage}
-          alt="Profile"
-          style={{
-            width: "100px",
-            height: "100px",
-            objectFit: "cover",
-            borderRadius: "50%",
-          }}
-          className="mr-3"
-        />
-        <input type="file" accept="image/*" onChange={handleImageUpload} />
-        <button className="btn btn-primary ml-3" onClick={handleImageSubmit}>
-          Upload Image
-        </button>
-      </div>
-      <form>
-        <div className="mb-3">
-          <label>Email: </label>
-          <input
-            type="text"
-            className="form-control"
-            value={userEmail}
-            onChange={(e) => setUserEmail(e.target.value)}
-          />
-        </div>
-        <div className="mb-3">
-          <label>Name: </label>
-          <input
-            type="text"
-            className="form-control"
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
-          />
-        </div>
-        <div className="mb-3">
-          <label>Phone Number : </label>
-          <input
-            type="text"
-            className="form-control"
-            value={userContact}
-            onChange={(e) => setUserContact(e.target.value)}
-          />
-        </div>
-        <div>
-          <button
-            className="btn btn-primary"
-            onClick={(e) => {
-              handleUpdateProfile(e);
-            }}
-          >
-            Update
-          </button>
-        </div>
-      </form>
+        
+    <section>
+  
+
+      <div className="container py-5 h-100">
+        <div className="row d-flex justify-content-center align-items-center h-100">
+          <div className="col-12 col-md-8 col-lg-6 col-xl-7">
+            <div
+              className="card shadow-2-strong"
+           
+            >
+                  <header style={{ backgroundColor: 'rgb(39, 83, 148)',padding: '20px 0', textAlign: 'center' }}>
+                  <h3 style={{ color: 'white' }}>User Profile</h3>
+                    </header>
+              <div className=" card-body p-5">
+                 <div className="d-flex align-items-center mb-3">
+                    <img
+                        src={selectedImage}
+                        alt="Profile"
+                        style={{
+                            width: "100px",
+                            height: "100px",
+                            objectFit: "cover",
+                            borderRadius: "50%",
+                        }}
+                        className="mr-3"
+                        />
+                        <input type="file" accept="image/*" onChange={handleImageUpload} />
+                        <button style={{backgroundColor:'rgb(39, 83, 148)' }} className="btn btn-primary ml-3" onClick={handleImageSubmit}>
+                          Upload 
+                        </button>
+                      </div>
+               
+  <form>
+  <div className="form-outline mb-4">
+                <label className="form-label" htmlFor="typeEmailX-2">
+               <b> Email :</b>
+                  </label>
+                  <input
+                    type="text"
+                    id={userEmail}
+                    className="form-control form-control-md"
+                    value={userEmail}
+        onChange={(e) => setUserEmail(e.target.value)}
+                   
+                  />
+                
+                </div>
+
+                <div className="form-outline mb-4">
+                <label className="form-label" htmlFor="typeEmailX-2">
+                <b>Name :</b>
+                  </label>
+                  <input
+                    type="text"
+                    id={userName}
+                    className="form-control form-control-md"
+                    value={userName}
+                    onChange={(e) => setUserName(e.target.value)}
+                   
+                  />
+                
+                </div>
+   
+                <div className="form-outline mb-4">
+                <label className="form-label" htmlFor="typeEmailX-2">
+                <b>Phone Number : </b>
+                  </label>
+                  <input
+                    type="text"
+                    id={userContact}
+                    className="form-control form-control-md"
+                    value={userContact}
+        onChange={(e) => setUserContact(e.target.value)}
+                   
+                  />
+                
+                </div>
+  
+    <div>
+      <button
+        className="btn btn-primary"
+        style={{backgroundColor:'rgb(39, 83, 148)' }}
+        onClick={(e) => {
+          handleUpdateProfile(e);
+        }}
+      >
+        Update
+      </button>
     </div>
+  </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+   
   );
 }

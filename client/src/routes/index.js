@@ -28,6 +28,7 @@ import CreateTeamPage from "../pages/CreateTeamPage";
 import InvitedUserPage from "../pages/InvitedUserPage";
 import LobbyPage from "../pages/LobbyPage";
 import Logout from "../components/Logout";
+import TeamMemberList from "../components/TeamMemberList";
 
 const AppRoutes = () => {
   return (
@@ -69,7 +70,8 @@ const AppRoutes = () => {
         <Route path="/addgame" element={<AddGame />} />
         <Route path="/browsegame" element={<BrowseGamePage />} />
         <Route path="/inviteduser" element={<InvitedUserPage />} />
-        <Route path="/CreatTeam" element={<CreateTeamPage />} />
+        <Route path="/createTeam" element={<CreateTeamPage />} />
+        <Route path="/InviteUser" element={<TeamMemberList />} />
         <Route path="/lobby/:gameId" element={<LobbyPage />} />
       </Routes>
     </Router>

@@ -1,50 +1,62 @@
 import React from "react";
+import { Container, Row, Col } from 'react-bootstrap';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
+
 
 const UserStatistics = ({ user_stats }) => {
   return (
-    <>
-      <div className="container my-5">
+ 
+   
+   
+     
+      <Card >
+      {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
+      <div style={{backgroundColor:'rgb(39, 83, 148)',color:'white'}} className="card-header"><b>User Stats</b></div>
+
+      <Card.Body>
+        <Card.Text>
         <div className="row">
-          <div className="col-md-12">
-            <h2 className="text-center mb-4">User Stats</h2>
-          </div>
-          <div className="col-md-6">
-            <div className="card">
-              <div className="card-body">
-                <h5 className="card-title">Total Score</h5>
-                <p className="card-text">{user_stats.user_total_score}</p>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-6">
-            <div className="card">
-              <div className="card-body">
-                <h5 className="card-title">Games Played</h5>
-                <p className="card-text">
-                  {user_stats.user_total_games_played}
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-6">
-            <div className="card">
-              <div className="card-body">
-                <h5 className="card-title">Games Won</h5>
-                <p className="card-text">{user_stats.user_games_won}</p>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-6">
-            <div className="card">
-              <div className="card-body">
-                <h5 className="card-title">Win Ratio</h5>
-                <p className="card-text">{user_stats.user_win_ratio}</p>
-              </div>
-            </div>
-          </div>
+        <div className="col">
+          <h5 className="card-title"><b>Total Score :</b></h5>
+        </div>
+        <div className="col">
+          <p className="card-text">{user_stats.user_total_score}</p>
         </div>
       </div>
-    </>
+
+
+      <div className="row">
+        <div className="col">
+          <h5 className="card-title"><b>Games Played :</b></h5>
+        </div>
+        <div className="col">
+          <p className="card-text"> {user_stats.user_total_games_played}</p>
+        </div>
+      </div>
+
+      <div className="row">
+        <div className="col">
+          <h5 className="card-title"><b>Games Won :</b></h5>
+        </div>
+        <div className="col">
+          <p className="card-text">{user_stats.user_games_won}</p>
+        </div>
+      </div>
+
+      <div className="row">
+        <div className="col">
+          <h5 className="card-title"><b>Win Ratio :</b></h5>
+        </div>
+        <div className="col">
+          <p className="card-text">{user_stats.user_win_ratio}</p>
+        </div>
+      </div>
+        </Card.Text>
+        {/* <Button variant="primary">Go somewhere</Button> */}
+      </Card.Body>
+    </Card>
+    
   );
 };
 
