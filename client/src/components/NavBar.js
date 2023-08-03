@@ -6,16 +6,16 @@ import profileImage from '../assets/images/profile_template.png';
 
 function AppNavbar() {
   return (
-    <Navbar bg="light" expand="lg" style={{ marginBottom: '40px' }}>
-      <Navbar.Brand href="/lobby">Trivia Titans</Navbar.Brand>
+    <Navbar  expand="lg" style={{ marginBottom: '40px' ,backgroundColor:'rgb(39, 83, 148)'}}>
+      <Navbar.Brand style={{color:'white'}}href="/lobby">Trivia Titans</Navbar.Brand>
       <Navbar.Toggle aria-controls="navbarScroll" />
       <Navbar.Collapse id="navbarScroll">
         <Nav className="me-auto my-2 my-lg-0" style={{ maxHeight: '100px' }} navbarScroll>
-          <Nav.Link href="/">Home</Nav.Link>
-          <Nav.Link href="/lobby">Lobby</Nav.Link>
-          <Nav.Link href="/stats">View Stats</Nav.Link>
-          <Nav.Link href="/leaderboard">Leaderboard</Nav.Link>
-          <Nav.Link href="/CreatTeam">Create Team</Nav.Link>
+          <Nav.Link style={{color:'white'}}href="/">Home</Nav.Link>
+          <Nav.Link style={{color:'white'}} href="/lobby">Lobby</Nav.Link>
+          <Nav.Link style={{color:'white'}} href="/stats">View Stats</Nav.Link>
+          <Nav.Link style={{color:'white'}} href="/leaderboard">Leaderboard</Nav.Link>
+          <Nav.Link style={{color:'white'}} href="/createTeam">Create Team</Nav.Link>
 
         </Nav>
         <Form className="d-flex">

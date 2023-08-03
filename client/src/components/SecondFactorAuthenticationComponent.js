@@ -86,60 +86,71 @@ export default function SecondFactorAuthenticationComponent() {
   };
 
   return (
-    <section className="vh-100">
+    
+    <section>
+  
+
       <div className="container py-5 h-100">
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="col-12 col-md-8 col-lg-6 col-xl-5">
             <div
               className="card shadow-2-strong"
-              style={{ borderRadius: "1rem" }}
+           
             >
-              <div className="card-body p-5 text-center">
-                <h3 className="mb-5">Second Factor Authentication</h3>
-
+                  <header style={{ backgroundColor: 'rgb(39, 83, 148)',padding: '20px 0', textAlign: 'center' }}>
+                  <h3 style={{ color: 'white' }}>Second Factor Authentication</h3>
+                    </header>
+              <div className=" card-body p-5">
+               
                 <div className="form-outline mb-4">
+                <label className="form-label" htmlFor="typeEmailX-2">
+                    <b>{userQuestionsList["Q1"]} :</b>
+                  </label>
                   <input
                     type="text"
                     id="a1"
-                    className="form-control form-control-lg"
+                    className="form-control form-control-md"
                     value={answer1}
+                    placeholder="Please input pet"
                     onChange={(event) => setAnswer1(event.target.value)}
                   />
-                  <label className="form-label" htmlFor="typeEmailX-2">
-                    {userQuestionsList["Q1"]}
-                  </label>
+                
                 </div>
 
                 <div className="form-outline mb-4">
+                <label className="form-label" htmlFor="typeEmailX-2">
+                    <b>{userQuestionsList["Q2"]} :</b>
+                  </label>
                   <input
                     type="text"
                     id="a1"
-                    className="form-control form-control-lg"
+                    className="form-control form-control-md"
+                    placeholder="Please input location"
                     value={answer2}
                     onChange={(event) => setAnswer2(event.target.value)}
                   />
-                  <label className="form-label" htmlFor="typeEmailX-2">
-                    {userQuestionsList["Q2"]}
-                  </label>
+                
                 </div>
 
                 <div className="form-outline mb-4">
+                <label className="form-label" htmlFor="typeEmailX-2">
+                    <b>{userQuestionsList["Q3"]} :</b>
+                  </label>
                   <input
                     type="text"
                     id="a1"
-                    className="form-control form-control-lg"
+                    className="form-control form-control-md"
+                    placeholder="Please input birth place"
                     value={answer3}
                     onChange={(event) => setAnswer3(event.target.value)}
                   />
-                  <label className="form-label" htmlFor="typeEmailX-2">
-                    {userQuestionsList["Q3"]}
-                  </label>
+                 
                 </div>
 
                 <button
                   className="btn btn-primary btn-lg btn-block"
                   type="submit"
-                  style={{ backgroundColor: "#4abdac" }}
+                  style={{backgroundColor:'rgb(39, 83, 148)' }}
                   onClick={(e) => handleAuthentication(e)}
                 >
                   Submit

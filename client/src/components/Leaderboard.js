@@ -35,7 +35,7 @@ const Leaderboard = () => {
           bottom: "20px",
           right: "20px",
           padding: "10px 20px",
-          backgroundColor: "#0dcaf0",
+          backgroundColor: "#275394",
           color: "#fff",
           borderRadius: "5px",
           border: "none",
