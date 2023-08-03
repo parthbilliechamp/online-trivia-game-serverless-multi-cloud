@@ -34,41 +34,62 @@ def handler(event, context):
 
     db = firestore.client()
 
-    request_body = json.loads(event['Records'][0]['body'])
-    game_id = request_body.get('gameId')
-    team_id = request_body.get('teamId')
+    request_body = json.loads(event['body'])
+    user_id = request_body.get('userId')  # Updated to get the user Id from request body.
 
-    if not game_id or not team_id:
+    if not user_id:
         return {
             'statusCode': 400,
-            'body': json.dumps({'error': 'Invalid request. Both gameId and teamId are required.'})
+            'body': json.dumps({'error': 'Invalid request. userId is required.'})
         }
 
-    game_ref = db.collection('games').document(game_id)
-    game = game_ref.get()
+    # Check if the user is present in any team.
+    teams_ref = db.collection('teams')
+    teams_query = teams_ref.where('users', 'array_contains', user_id)
+    teams_snapshot = teams_query.get()
 
-    if game.exists:
-        game_data = game.to_dict()
-        participants = game_data.get('teams', [])
-
-        if team_id not in participants:
-            participants.append(team_id)
-            game_ref.update({'teams': participants})
-
-            return {
-                'statusCode': 200,
-                'headers': headers,
-                'body': json.dumps({'message': 'You have successfully joined the game!'})
-            }
-        else:
-            return {
-                'statusCode': 400,
-                'headers': headers,
-                'body': json.dumps({'error': 'You are already a participant in this game.'})
-            }
-    else:
+    if len(teams_snapshot) == 0:
         return {
             'statusCode': 404,
-            'headers': headers, 
-            'body': json.dumps({'error': 'Game not found.'})
+            'headers': headers,
+            'body': json.dumps({'error': 'User is not joined any team.'})
         }
+    else:
+        # Assuming a user can be part of multiple teams, we will take the first team.
+        team_id = teams_snapshot[0].id
+        game_id = request_body.get('gameId')
+
+        if not game_id:
+            return {
+                'statusCode': 400,
+                'body': json.dumps({'error': 'Invalid request. gameId is required.'})
+            }
+
+        game_ref = db.collection('admingames').document(game_id)
+        game = game_ref.get()
+
+        if game.exists:
+            game_data = game.to_dict()
+            participants = game_data.get('teams', [])
+
+            if team_id not in participants:
+                participants.append(team_id)
+                game_ref.update({'teams': participants})
+
+                return {
+                    'statusCode': 200,
+                    'headers': headers,
+                    'body': json.dumps({'message': 'You have successfully joined the game!'})
+                }
+            else:
+                return {
+                    'statusCode': 400,
+                    'headers': headers,
+                    'body': json.dumps({'error': 'You are already a participant in this game.'})
+                }
+        else:
+            return {
+                'statusCode': 404,
+                'headers': headers,
+                'body': json.dumps({'error': 'Game not found.'})
+            }

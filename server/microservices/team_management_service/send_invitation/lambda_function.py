@@ -41,11 +41,11 @@ def send_invitation_email(invited_user, invitation_link):
     sns.publish(
         TopicArn=topic_arn,
         Message=message,
-        Subject=f'{invited_user} invited you to the team',
+        Subject='Team invited you to the team',
         MessageAttributes={
-            'TargetArn': {
+            'email': {
                 'DataType': 'String',
-                'StringValue': get_invited_user_target_arn(invited_user)
+                'StringValue': invited_user
             }
         }
     )

@@ -1,9 +1,9 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import CreateTeamButton from "../components/CreateTeamButton";
 import TeamMemberList from "../components/TeamMemberList";
-import { Container, Row, Col,Button } from 'react-bootstrap';
-import Card from 'react-bootstrap/Card';
-import { useNavigate } from 'react-router-dom';
+// import { Container, Row, Col,Button } from 'react-bootstrap';
+import Card from "react-bootstrap/Card";
+import { useNavigate } from "react-router-dom";
 
 const CreateTeamPage = () => {
   const [teamCreated, setTeamCreated] = useState(false);
@@ -59,7 +59,7 @@ const CreateTeamPage = () => {
         });
 
         const data = await response.json();
-        console.log('data......',data);
+        console.log("data......", data);
         setTeamCreated(true);
         setTeamId(data.teamId);
         setTeamName(data.teamName);
@@ -74,75 +74,85 @@ const CreateTeamPage = () => {
   }, []); // Empty dependency array means the effect runs once after initial render
 
   const handleClickOfInviteUser = () => {
-    console.log('alluysers',allUsers)
-    const data ={ allUsers,
-      teamId,
-      teamName,
-      adminUserId,
-    }
-    console.log('dataaa',data)
-    navigate('/InviteUser',{ state: {data} });
-  }
+    console.log("alluysers", allUsers);
+    const data = { allUsers, teamId, teamName, adminUserId };
+    console.log("dataaa", data);
+    navigate("/InviteUser", { state: { data } });
+  };
 
   return (
     <div>
-    
       {!teamCreated ? (
         <CreateTeamButton />
       ) : (
         <div>
-        
-         <Container>
-         <Row>
-      <Col xs={12} md={8}>
-          
-      <Card >
-      {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
-      <div style={{backgroundColor:'rgb(39, 83, 148)',color:'white'}} className="card-header"><b>Team Details</b></div>
+          <Container>
+            <Row>
+              <Col xs={12} md={8}>
+                <Card>
+                  {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
+                  <div
+                    style={{
+                      backgroundColor: "rgb(39, 83, 148)",
+                      color: "white",
+                    }}
+                    className="card-header"
+                  >
+                    <b>Team Details</b>
+                  </div>
 
-      <Card.Body>
-        <Card.Text>
-        <div className="row">
-        <div className="col">
-          <h5 className="card-title"><b>Team Id :</b></h5>
-        </div>
-        <div className="col">
-          <p className="card-text">{teamId}</p>
-        </div>
-      </div>
+                  <Card.Body>
+                    <Card.Text>
+                      <div className="row">
+                        <div className="col">
+                          <h5 className="card-title">
+                            <b>Team Id :</b>
+                          </h5>
+                        </div>
+                        <div className="col">
+                          <p className="card-text">{teamId}</p>
+                        </div>
+                      </div>
 
+                      <div className="row">
+                        <div className="col">
+                          <h5 className="card-title">
+                            <b>Team Name :</b>
+                          </h5>
+                        </div>
+                        <div className="col">
+                          <p className="card-text"> {teamName}</p>
+                        </div>
+                      </div>
 
-      <div className="row">
-        <div className="col">
-          <h5 className="card-title"><b>Team Name :</b></h5>
-        </div>
-        <div className="col">
-          <p className="card-text"> {teamName}</p>
-        </div>
-      </div>
+                      <div className="row">
+                        <div className="col">
+                          <h5 className="card-title">
+                            <b>Admin User Id :</b>
+                          </h5>
+                        </div>
+                        <div className="col">
+                          <p className="card-text">{adminUserId}</p>
+                        </div>
+                      </div>
+                      <br></br>
+                      <Button
+                        onClick={handleClickOfInviteUser}
+                        style={{
+                          backgroundColor: "rgb(39, 83, 148)",
+                          color: "white",
+                        }}
+                      >
+                        Invite Users
+                      </Button>
+                    </Card.Text>
+                    {/* <Button variant="primary">Go somewhere</Button> */}
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+          </Container>
 
-      <div className="row">
-        <div className="col">
-          <h5 className="card-title"><b>Admin User Id :</b></h5>
-        </div>
-        <div className="col">
-          <p className="card-text">{adminUserId}</p>
-        </div>
-      </div>
-      <br></br>
-      <Button onClick={handleClickOfInviteUser} style={{backgroundColor:'rgb(39, 83, 148)',color:'white'}}>Invite Users</Button>
-    
-        </Card.Text>
-        {/* <Button variant="primary">Go somewhere</Button> */}
-      </Card.Body>
-    </Card>
-  
-      </Col>
-   
-      
-    </Row>
-    </Container>
-        
           {/* <TeamMemberList
             members={allUsers}
             teamData={{
