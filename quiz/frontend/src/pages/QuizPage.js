@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../assets/styles/quizStyles.css';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import QuizSetup from '../components/QuizSetup';
 import QuestionCard from '../components/QuestionCard';
@@ -20,7 +20,7 @@ function QuizPage() {
     const [timer, setTimer] = useState(20); // Timer for each question
     const [score, setScore] = useState(0); // Individual question score
     const [totalScore, setTotalScore] = useState(0); // Total score
-    const history = useHistory(); // Initialize useHistory
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Start the timer when the current question changes
@@ -40,11 +40,10 @@ function QuizPage() {
       const handleFetchQuestions = () => {
         fetchQuestions();
       };  
-    
-      const API_BASE_URL = 'http://localhost:5000'; // https://us-central1-trivia-392000.cloudfunctions.net
+
       const fetchQuestions = async () => {
         try {
-          const response = await axios.get(`${API_BASE_URL}/get_questions`, {
+          const response = await axios.get(`https://us-central1-trivia-392000.cloudfunctions.net/quiz_get_question`, {
     
             params: {
               category: selectedCategory,
@@ -139,7 +138,7 @@ function QuizPage() {
         const currentDate = new Date();
         const date = currentDate.toISOString().split('T')[0];
         try {
-          const response = await axios.post(`${API_BASE_URL}/submit_score`, {
+          const response = await axios.post(`https://us-central1-trivia-392000.cloudfunctions.net/quiz_result`, {
             total_score: totalScore,
             category: selectedCategory,
             date: date
@@ -148,11 +147,10 @@ function QuizPage() {
         } catch (error) {
           console.log('Failed to submit score:', error);
         }
-        history.push('/result'); // Use history.push to navigate
+        navigate('/result');
       };
     
       const currentQuestion = questions[currentQuestionIndex];
-      //const isOptionSelected = currentQuestion && currentQuestion.selectedOption !== '';
       const isAnswerChecked = showExplanation && currentQuestion && currentQuestion.selectedOption !== '';
 
     return (

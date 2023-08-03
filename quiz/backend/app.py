@@ -11,8 +11,8 @@ CORS(app)
 
 # Initialize Firestore
 db = firestore.Client()
-aws_access_key_id = 'AKIAYYMCQ4PPG2XGVKPK'
-aws_secret_access_key = '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'
+aws_access_key_id = ''
+aws_secret_access_key = ''
 region_name = 'us-east-1'
 
 @app.route('/')
