@@ -14,7 +14,7 @@ const InvitedUserPage = () => {
 
         // Now, send the data to the backend endpoint
         const addInvitedUserEndpoint =
-          "https://tnbolwcoaj.execute-api.us-east-1.amazonaws.com/prod/invite_user";
+          "https://yo0326phef.execute-api.us-east-1.amazonaws.com/prod/add_invited_user";
 
         const response = await fetch(addInvitedUserEndpoint, {
           method: "POST",
