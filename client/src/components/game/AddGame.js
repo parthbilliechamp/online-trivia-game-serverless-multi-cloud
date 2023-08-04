@@ -21,6 +21,7 @@ const AddGamePage = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    
     setGameData(prevData => ({
       ...prevData,
       [name]: value
@@ -114,13 +115,15 @@ const AddGamePage = () => {
               <input type="text" className="form-control" id="timeframe" name="timeframe" value={gameData.timeframe} onChange={handleChange} required style={{ fontSize: '1rem' }} />
             </div>
             <div className="mb-3">
-              <label htmlFor="start_time" className="form-label" style={{ fontSize: '1rem' }}>Start Time:</label>
-              <input type="date" className="form-control" id="start_time" name="start_time" value={gameData.start_time} onChange={handleChange} required style={{ fontSize: '1rem' }} />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="end_time" className="form-label" style={{ fontSize: '1rem' }}>End Time:</label>
-              <input type="date" className="form-control" id="end_time" name="end_time" value={gameData.end_time} onChange={handleChange} required style={{ fontSize: '1rem' }} />
-            </div>
+  <label htmlFor="start_time" className="form-label" style={{ fontSize: '1rem' }}>Start Time:</label>
+  <input type="datetime-local" className="form-control" id="start_time" name="start_time" value={gameData.start_time} onChange={handleChange} required style={{ fontSize: '1rem' }} />
+</div>
+<div className="mb-3">
+  <label htmlFor="end_time" className="form-label" style={{ fontSize: '1rem' }}>End Time:</label>
+  <input type="datetime-local" className="form-control" id="end_time" name="end_time" value={gameData.end_time} onChange={handleChange} required style={{ fontSize: '1rem' }} />
+</div>
+
+
             <div className="mb-3">
               <label htmlFor="description" className="form-label" style={{ fontSize: '1rem' }}>Description:</label>
               <input type="text" className="form-control" id="description" name="description" value={gameData.description} onChange={handleChange} required style={{ fontSize: '1rem' }} />
