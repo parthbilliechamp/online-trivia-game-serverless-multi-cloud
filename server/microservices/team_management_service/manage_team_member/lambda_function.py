@@ -15,6 +15,12 @@ def get_firebase_key():
 
 def lambda_handler(event, context):
     print(event)
+    headers = {
+        "Access-Control-Allow-Origin": '*',
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Content-Type": "application/json"
+    }
     try:
         print("========================Inside Try ============================")
         print("=========================Request Body =========================")
@@ -82,12 +88,14 @@ def lambda_handler(event, context):
                 print("-------------------------Admin Updated-----------------------")
                 response = {
                     "statusCode": 200,
+                    'headers': headers,
                     "body": json.dumps("User promoted to admin successfully."),
                 }
             else:
                 print("-------------------------inside first else-----------------------")
                 response = {
                     "statusCode": 400,
+                    'headers': headers,
                     "body": json.dumps("User is not a team member."),
                 }
             print("-------------------------Outside elif-----------------------")
@@ -106,6 +114,7 @@ def lambda_handler(event, context):
                 print("-------------------------Removed user successfully-----------------------")
                 response = {
                     "statusCode": 200,
+                    'headers': headers,
                     "body": json.dumps("User removed from the team successfully."),
                 }
                 print("-------------------------inside first if ---Else -----------------------")
@@ -113,6 +122,7 @@ def lambda_handler(event, context):
                 print("-------------------------inside first elif's else-----------------------")
                 response = {
                     "statusCode": 400,
+                    'headers': headers,
                     "body": json.dumps("User is not a team member."),
                 }
         elif action == "leave_team":
@@ -125,6 +135,7 @@ def lambda_handler(event, context):
                 print("---------------------------user left team----------------------")
                 response = {
                     "statusCode": 200,
+                    'headers': headers,
                     "body": json.dumps("User left the team successfully."),
                 }
             elif user_id == admin_id:
@@ -135,18 +146,21 @@ def lambda_handler(event, context):
                 print("---------------------------admin left team----------------------")
                 response = {
                     "statusCode": 200,
+                    'headers': headers,
                     "body": json.dumps("Admin left the team successfully."),
                 }
             else:
                 print("--------------------------- left team else----------------------")
                 response = {
                     "statusCode": 400,
+                    'headers': headers,
                     "body": json.dumps("User is not a team member."),
                 }
         else:
             print("---------------------------final else----------------------")
             response = {
                 "statusCode": 400,
+                'headers': headers,
                 "body": json.dumps("Invalid action."),
             }
         # else:
@@ -162,6 +176,7 @@ def lambda_handler(event, context):
         # Return an error response if any error occurs
         response = {
             "statusCode": 500,
+            'headers': headers,
             "body": json.dumps(f"Error: {str(e)}"),
         }
         return response

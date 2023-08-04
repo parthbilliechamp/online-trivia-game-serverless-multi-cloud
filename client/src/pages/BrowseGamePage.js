@@ -10,6 +10,7 @@ const BrowseGamePage = () => {
   const [timeFrame, setTimeFrame] = useState("");
   const [loading, setLoading] = useState(true);
   const [selectedGame, setSelectedGame] = useState(null);
+  const [teamInfo, setTeamInfo] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -43,6 +44,60 @@ const BrowseGamePage = () => {
         alert("An error occurred while fetching games.");
       });
   }, [category, difficultyLevel, timeFrame]);
+
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    if (userId) {
+      fetchTeamInfo(userId);
+    }
+  }, []);
+
+  const fetchTeamInfo = (userId) => {
+    fetch(
+      "https://t8ulgpvf5e.execute-api.us-east-1.amazonaws.com/prod/team_info",
+      {
+        method: "POST",
+        body: JSON.stringify({ userId }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setTeamInfo(data);
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("An error occurred while fetching team information.");
+      });
+  };
+
+  const handleTeamAction = (action, teamId, userId) => {
+    // const userId = localStorage.getItem("userId");
+    if (userId) {
+      fetch(
+        "https://upth5gpm0d.execute-api.us-east-1.amazonaws.com/prod/manage_team_member",
+        {
+          method: "POST",
+          body: JSON.stringify({ team_id: teamId, user_id: userId, action }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          window.location.reload();
+          // You can handle the response here based on the action and show appropriate messages to the user.
+        })
+        .catch((error) => {
+          console.error(error);
+          alert("An error occurred while performing the team action.");
+        });
+    }
+  };
 
   const handleJoinGame = (gameId) => {
     const selectedGame = games.find((game) => game.gameId === gameId);
@@ -118,6 +173,66 @@ const BrowseGamePage = () => {
   return (
     <div>
       <h1>Browse Games</h1>
+      {teamInfo.length > 0 && (
+        <div className="team-info">
+          <h2>Your Team Information</h2>
+          {teamInfo.map((team) => (
+            <div key={team.teamName}>
+              <h3>Team Name: {team.teamName}</h3>
+              <ul>
+                {team.teamMembers.map((member) => (
+                  <li key={member.user_id}>
+                    Member Name: {member.user_info.name} | Email:{" "}
+                    {member.user_info.email}
+                    {console.log(member.user_id)}
+                    {console.log(team.admin)}
+                    {localStorage.getItem("userId") === team.admin &&
+                    member.user_id !== team.admin ? (
+                      <button
+                        onClick={() =>
+                          handleTeamAction(
+                            "remove_member",
+                            team.teamId,
+                            member.user_id
+                          )
+                        }
+                      >
+                        Remove Member
+                      </button>
+                    ) : null}
+                    {localStorage.getItem("userId") === team.admin &&
+                    member.user_id !== team.admin ? (
+                      <button
+                        onClick={() =>
+                          handleTeamAction(
+                            "promote_to_admin",
+                            team.teamId,
+                            member.user_id
+                          )
+                        }
+                      >
+                        Promote to Admin
+                      </button>
+                    ) : null}
+                  </li>
+                ))}
+              </ul>
+
+              <button
+                onClick={() =>
+                  handleTeamAction(
+                    "leave_team",
+                    team.teamId,
+                    localStorage.getItem("userId")
+                  )
+                }
+              >
+                Leave Team
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
       <div className="filter-container">
         <label htmlFor="category-filter">Category:</label>
         <input
@@ -143,7 +258,6 @@ const BrowseGamePage = () => {
           onChange={(e) => setTimeFrame(e.target.value)}
         />
       </div>
-
       {loading ? (
         <div className="loader">Loading...</div>
       ) : (
