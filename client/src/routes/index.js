@@ -10,6 +10,9 @@ import Leaderboard from "../components/Leaderboard";
 import TopLeaderStats from "../components/TopLeaderStats";
 import CompareUserStats from "../components/CompareUserStats";
 import TeamsStatisticsPage from "../pages/TeamsStatisticsPage";
+import QuizPage from "../pages/QuizPage";
+import ResultPage from "../pages/ResultPage"
+
 import { ToastContainer } from "react-toastify";
 
 import QuestionForm from "../components/AddQuestion";
@@ -73,6 +76,9 @@ const AppRoutes = () => {
         <Route path="/createTeam" element={<CreateTeamPage />} />
         <Route path="/InviteUser" element={<TeamMemberList />} />
         <Route path="/lobby/:gameId" element={<LobbyPage />} />
+
+        <Route path="/quiz" element={<QuizPage />} />
+        <Route path="/result" element={<ResultPage />} />
       </Routes>
     </Router>
   );

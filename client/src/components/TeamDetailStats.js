@@ -2,16 +2,14 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Row, Col,Button } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
-function TeamDetailStats({ team_data, user_stats }) {
-  const team_members = [
-    "user1@example.com",
-    "user2@example.com",
-    "user3@example.com",
-  ];
-  console.log(team_data);
-  console.log(user_stats);
+
+const TeamDetailStats = ({ team_data, user_stats, team_members }) => {
 
   const navigate = useNavigate();
+
+  if (!user_stats || !team_data || !team_members) {
+    return <p>Loading user statistics...</p>;
+  }
 
   const handleCompareStatsClick = (user) => {
     console.log(user_stats);

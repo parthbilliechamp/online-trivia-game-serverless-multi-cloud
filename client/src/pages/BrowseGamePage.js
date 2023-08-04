@@ -172,7 +172,10 @@ const BrowseGamePage = () => {
 
   return (
     <div>
-      <h1>Browse Games</h1>
+      <h2 style={{ textAlign: "center" }}>
+        <u>Browse Games</u>
+      </h2>
+      <br></br>
       {teamInfo.length > 0 && (
         <div className="team-info">
           <h2>Your Team Information</h2>
@@ -233,6 +236,7 @@ const BrowseGamePage = () => {
           ))}
         </div>
       )}
+
       <div className="filter-container">
         <label htmlFor="category-filter">Category:</label>
         <input
