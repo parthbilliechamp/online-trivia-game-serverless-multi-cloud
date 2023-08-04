@@ -1,12 +1,10 @@
 // QuizPage.js
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import "../assets/styles/quizStyles.css";
 import { useLocation, useNavigate } from "react-router-dom";
-
-import QuizSetup from "../components/QuizSetup";
 import QuestionCard from "../components/QuestionCard";
 import QuizCompletion from "../components/QuizCompletion";
+import TotalScore from "../components/TotalScore";
 
 function QuizPage() {
   const [questions, setQuestions] = useState([]);
@@ -39,8 +37,20 @@ function QuizPage() {
       }
       return prevQuestions;
     });
-}, [location.state]);
+  }, [location.state]);
 
+  useEffect(() => {
+    let intervalId;
+    if (timer > 0) {
+      intervalId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [timer]);
 
   const handleOptionSelect = (questionId, option) => {
     setSelectedOption(option);
@@ -75,7 +85,7 @@ function QuizPage() {
     const questionScore = isCorrect ? 100 : 0;
     setScore(questionScore);
     setIsAnswerCorrect(isCorrect);
-    setTotalScore((prevTotalScore) => prevTotalScore + questionScore); // Update total score
+    setTotalScore((prevTotalScore) => prevTotalScore + questionScore);
   };
 
   const shouldShowHint = () => {
@@ -111,22 +121,38 @@ function QuizPage() {
     // Make an API call to submit the total score to Firestore
     const currentDate = new Date();
     const date = currentDate.toISOString().split("T")[0];
+
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        total_score: totalScore,
+        category: selectedCategory,
+        date: date,
+      }),
+    };
+
     try {
-      const response = await axios.post(
-        `https://us-central1-trivia-392000.cloudfunctions.net/quiz_result`,
-        {
-          total_score: totalScore,
-          category: selectedCategory,
-          date: date,
-        }
+      const response = await fetch(
+        "https://us-central1-trivia-392000.cloudfunctions.net/quiz_result",
+        requestOptions
       );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok.");
+      }
+
+      const responseData = await response.json();
       console.log(
         "Score submitted successfully. Score ID:",
-        response.data.score_id
+        responseData.score_id
       );
     } catch (error) {
       console.log("Failed to submit score:", error);
     }
+
     navigate("/result");
   };
 
@@ -136,7 +162,8 @@ function QuizPage() {
     showExplanation && currentQuestion && currentQuestion.selectedOption !== "";
 
   return (
-    <div className="container">
+    <div className="container_quiz">
+      <TotalScore totalScore={totalScore} />
       {currentQuestion && (
         <QuestionCard
           currentQuestion={currentQuestion}

@@ -1,5 +1,6 @@
 // QuestionCard.js
 import React from 'react';
+import { Container, Row, Col, Table,Button } from 'react-bootstrap';
 import '../assets/styles/quizStyles.css';
 
 function QuestionCard({
@@ -21,8 +22,20 @@ function QuestionCard({
 }) {
   return (
     <div key={currentQuestion.id}>
-      <div className="timer">Time Left: {timer}s</div>
-      <h3>{currentQuestion.question}</h3>
+      <br></br>
+      <Row>
+      <Col xs={12} md={6} className="mb-4">
+        <div className="timer">Time Left: {timer}s</div>
+        </Col>
+        <Col xs={12} md={6} className="mb-4">
+        <Button  style={{
+          backgroundColor: "rgb(39, 83, 148)",
+          color: "white",
+          float:'right'
+        }}  onClick={handleQuizCompletion}>Exit</Button></Col>
+      </Row>
+      
+      <h4>1. {currentQuestion.question}</h4>
       <ul className="options-container">
         <li
           className={`option ${selectedOption === 'option1' ? 'selected-option' : ''}`}
@@ -49,9 +62,11 @@ function QuestionCard({
           {currentQuestion.option4}
         </li>
       </ul>
-
-      {/*Check Answer*/}
-      {isAnswerChecked ? (
+    
+        <Row>
+       
+        <Col xs={12} md={12}className="mb-4">
+        {isAnswerChecked ? (
         <div>
           <p>
             {isAnswerCorrect ? (
@@ -65,28 +80,51 @@ function QuestionCard({
         </div>
       ) : (
         <div className="button-container">
-          <button onClick={() => handleCheckAnswer()}>Submit</button>
+          <Button  style={{
+            backgroundColor: "rgb(39, 83, 148)",
+            color: "white",
+          }}onClick={() => handleCheckAnswer()}>Submit</Button>
         </div>
       )}
-
-      {/* Hint section */}
+          </Col>
+          <Col xs={12} md={12} className="mb-4">
+             {/* Hint section */}
       {!shouldShowHint() && currentQuestion.hint && (
-        <button onClick={handleShowHint}>Hint</button>
+        <Button  style={{
+          backgroundColor: "rgb(39, 83, 148)",
+          color: "white",
+        }} onClick={handleShowHint}>Hint</Button>
       )}
       {shouldShowHint() && (
         <div>
           <p>Hint: {currentQuestion.hint}</p>
         </div>
       )}
+          </Col>
+        
+      
+          <Col xs={12} md={11}>
+          <Button  style={{
+            backgroundColor: "rgb(39, 83, 148)",
+            color: "white",float:'right'
+          }}  onClick={() => handlePrevQuestion()} disabled={currentQuestionIndex === 0}>Back</Button>
+          </Col>
+          <Col  xs={12} md={1}>
+          <Button  style={{
+            backgroundColor: "rgb(39, 83, 148)",
+            color: "white",float:'right'
+          }} onClick={() => handleNextQuestion()} disabled={currentQuestionIndex === questionsLength - 1}>Next</Button>
+          </Col>
+        </Row>
+        <br></br>
+     
+      {/*Check Answer*/}
+      
 
-      {/* Buttons */}
-      <div>
-        <p></p>
-        <button onClick={() => handleNextQuestion()} disabled={currentQuestionIndex === questionsLength - 1}>Next</button>
-      </div>
-      <div>
-        <button onClick={handleQuizCompletion}>Exit</button>
-      </div>
+     
+
+     
+     
     </div>
   );
 }

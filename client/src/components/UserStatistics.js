@@ -52,7 +52,7 @@ const UserStatistics = ({ user_stats }) => {
           <h5 className="card-title"><b>Win Ratio :</b></h5>
         </div>
         <div className="col">
-          <p className="card-text">{user_stats.user_win_ratio}</p>
+        <p className="card-text">{parseFloat(user_stats.user_win_ratio).toFixed(2)}%</p>
         </div>
       </div>
         </Card.Text>
