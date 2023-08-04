@@ -5,10 +5,13 @@ import Button from 'react-bootstrap/Button';
 
 
 const UserStatistics = ({ user_stats }) => {
-  return (
- 
-   
-   
+
+
+  if (!user_stats) {
+    return <p>Loading user statistics...</p>;
+  }
+
+  return (  
      
       <Card >
       {/* <Card.Img variant="top" src="holder.js/100px180" /> */}

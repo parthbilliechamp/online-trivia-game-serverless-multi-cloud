@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./LobbyPage.css";
+import Card from "react-bootstrap/Card";
+import { Container, Row, Col, Table, Button } from "react-bootstrap";
+import CountDownTimer from "../components/CountDownTimer";
 
 const LobbyPage = ({ onBackToBrowse }) => {
   const { gameId } = useParams();
   const [game, setGame] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
+  const handleStartQuiz = () => {
+    navigate("/quiz", { state: { game } });
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -23,7 +30,7 @@ const LobbyPage = ({ onBackToBrowse }) => {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.teams);
+        console.log("data", data);
         setGame(data);
         setLoading(false);
       })
@@ -33,15 +40,6 @@ const LobbyPage = ({ onBackToBrowse }) => {
         alert("An error occurred while fetching game details.");
       });
   }, [gameId]);
-
-  const generateRandomColor = () => {
-    const letters = "0123456789ABCDEF";
-    let color = "#";
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  };
 
   useEffect(() => {
     if (game) {
@@ -62,49 +60,137 @@ const LobbyPage = ({ onBackToBrowse }) => {
   }, [game, navigate]);
 
   return (
-    <div className="lobby-page">
-      <h1>Lobby Page</h1>
-
-      {loading ? (
-        <div className="loader">Loading...</div>
-      ) : (
-        <div>
-          <div className="game-details">
-            <h2>Game Details</h2>
-            <p>Title: {game?.description}</p>
-            <p>Category: {game?.category}</p>
-            <p>Difficulty Level: {game?.difficulty}</p>
-            <p>Time Frame: {game?.timeframe}</p>
-          </div>
-
-          <div className="teams-list">
-            <h2>Teams</h2>
-            {game?.teams?.map((team) => (
+    <div>
+      {/* <h1>Lobby Page</h1> */}
+      <Container>
+        <Row>
+          <Col xs={12} md={6} className="mb-4">
+            <Card>
+              {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
               <div
-                key={team.teamName}
-                className="team-card"
-                style={{ backgroundColor: generateRandomColor() }}
+                style={{ backgroundColor: "rgb(39, 83, 148)", color: "white" }}
+                className="card-header"
               >
-                <p>Team Name: {team.teamName}</p>
-                <ul>
-                  {team.users.map((user_id) => {
-                    const user = game?.users?.find(
-                      (user) => user.user_id === user_id
-                    );
-                    return (
-                      <li key={user_id}>Member: {user?.user_info?.name}</li>
-                    );
-                  })}
-                </ul>
+                <b>Lobby Page</b>
               </div>
-            ))}
-          </div>
-        </div>
-      )}
 
-      <button className="back-button" onClick={onBackToBrowse}>
+              <Card.Body>
+                <Card.Text>
+                  <div className="row">
+                    <div className="col">
+                      <h4 className="card-title">
+                        <b>
+                          <u>Game Details</u>
+                        </b>
+                      </h4>
+                    </div>
+                    <div className="col">
+                      <p className="card-text"></p>
+                    </div>
+                  </div>
+
+                  <div className="row">
+                    <div className="col">
+                      <h5 className="card-title">
+                        <b>Title : </b>
+                      </h5>
+                    </div>
+                    <div className="col">
+                      <p className="card-text"> {game?.description} </p>
+                    </div>
+                  </div>
+
+                  <div className="row">
+                    <div className="col">
+                      <h5 className="card-title">
+                        <b>Category : </b>
+                      </h5>
+                    </div>
+                    <div className="col">
+                      <p className="card-text">{game?.category}</p>
+                    </div>
+                  </div>
+
+                  <div className="row">
+                    <div className="col">
+                      <h5 className="card-title">
+                        <b>Difficulty Level : </b>
+                      </h5>
+                    </div>
+                    <div className="col">
+                      <p className="card-text">{game?.difficulty}</p>
+                    </div>
+                  </div>
+
+                  <div className="row">
+                    <div className="col">
+                      <h5 className="card-title">
+                        <b>Time Frame : </b>
+                      </h5>
+                    </div>
+                    <div className="col">
+                      <p className="card-text">{game?.timeframe}</p>
+                    </div>
+                  </div>
+                </Card.Text>
+                {/* <Button variant="primary">Go somewhere</Button> */}
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col xs={12} md={6}>
+            {/* <Button style={{float:'right',backgroundColor:'rgb(39, 83, 148)'}}className="back-button" onClick={onBackToBrowse}>
         Back to Browse
-      </button>
+      </Button> */}
+          </Col>
+          <CountDownTimer startDate={game?.start_time}></CountDownTimer>
+          <br></br>
+          <br></br>
+          <Col xs={12} md={12}>
+            <Table striped bordered hover>
+              <thead>
+                <tr
+                  style={{
+                    backgroundColor: "rgb(39, 83, 148)",
+                    color: "white",
+                  }}
+                >
+                  <th>Team Name</th>
+                  <th>Members</th>
+                </tr>
+              </thead>
+              <tbody>
+                {game?.teams?.map((team) => (
+                  <tr>
+                    <td>{team.teamName}</td>
+                    <td>
+                      {team.users.map((user_id, index) => {
+                        const user = game?.users?.find(
+                          (user) => user.user_id === user_id
+                        );
+                        return (
+                          <span>
+                            {user?.user_info?.name}{" "}
+                            {index !== team.users.length - 1 ? ", " : ""}{" "}
+                          </span>
+                          // <td key={user_id}>{user?.user_info?.name}</td>
+                        );
+                      })}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </Col>
+        </Row>
+      </Container>
+
+      <Button
+        variant="primary"
+        onClick={handleStartQuiz}
+        disabled={!{game}} // Disable the button if game is null or undefined
+      >
+        Start Quiz
+      </Button>
     </div>
   );
 };

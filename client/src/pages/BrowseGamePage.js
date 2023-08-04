@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./BrowseGamePage.css";
 import GameList from "../components/browse-games/GameList";
+import { Container, Row, Col,Button } from 'react-bootstrap';
 
 const BrowseGamePage = () => {
   const [games, setGames] = useState([]);
@@ -172,7 +173,9 @@ const BrowseGamePage = () => {
 
   return (
     <div>
-      <h1>Browse Games</h1>
+
+<h2 style={{textAlign:'center'}}><u>Browse Games</u></h2>
+      <br></br>
       {teamInfo.length > 0 && (
         <div className="team-info">
           <h2>Your Team Information</h2>
@@ -233,7 +236,11 @@ const BrowseGamePage = () => {
           ))}
         </div>
       )}
-      <div className="filter-container">
+      <Container>
+            <Row>
+              <Col xs={12} md={4}>
+              <label htmlFor="category-filter"><b>Category : </b></label>
+      <div className="filter-container" />
         <label htmlFor="category-filter">Category:</label>
         <input
           type="text"
@@ -241,35 +248,37 @@ const BrowseGamePage = () => {
           value={category}
           onChange={(e) => setCategory(e.target.value)}
         />
-
-        <label htmlFor="difficulty-filter">Difficulty Level:</label>
+              </Col>
+              <Col xs={12} md={4}>
+              <label htmlFor="difficulty-filter"><b>Difficulty Level : </b></label>
         <input
           type="text"
           id="difficulty-filter"
           value={difficultyLevel}
           onChange={(e) => setDifficultyLevel(e.target.value)}
         />
-
-        <label htmlFor="timeframe-filter">Time Frame:</label>
+              </Col>
+              <Col xs={12} md={4}>
+              <label htmlFor="timeframe-filter"><b>Time Frame : </b></label>
         <input
           type="text"
           id="timeframe-filter"
           value={timeFrame}
           onChange={(e) => setTimeFrame(e.target.value)}
         />
-      </div>
-      {loading ? (
+        </Col>
+      {loading  ? (
         <div className="loader">Loading...</div>
       ) : (
         <div>
           <GameList games={games} joinGame={handleJoinGame} />
-          {selectedGame && (
-            <div className="countdown-timer">
-              Game starts in: {calculateTimeRemaining(selectedGame.start_time)}
-            </div>
-          )}
+          
         </div>
-      )}
+      )} 
+             
+              </Row>
+              </Container>
+    
     </div>
   );
 };

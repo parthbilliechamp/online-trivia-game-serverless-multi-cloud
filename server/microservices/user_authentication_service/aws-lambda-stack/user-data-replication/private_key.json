@@ -1,0 +1,14 @@
+{
+  "type": "service_account",
+  "project_id": "trivia-392000",
+  "private_key_id": "ce39d39cb03bbb6ef912e2873efd73196d3e8938",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDauz8Tfyi5uPCx\nT3xax0aAtfRhQL3vqyju3zyEdd6siJx/pGDRLAM0DvCGerNQt40GQlBu0dIL1eG1\nL4PTbd56M1cBgMqjBLz47oqdDk8M08DkC/ZW0maomID01W1BlCuuQA4CWOQnuMeO\nH9TWHvEaI1+RXuf0xdfZOPKtSR0zuXKtyK9WQGVcfb+D1HTw0euWUsvpsQxofdK4\nO0GyiuVSQgNZ4XfgsQnxaVfOsdkqqSjqAQW9giHcGDAI88yvPClbc2gDfy447NKw\n0InQ9KYGyAonW+M38INV+4lZYZQw6Fz6GV9rlKB7mowJ9q9RHXpgJIKGwSiCUSPM\n9saq7G6DAgMBAAECggEAHcHjru9ZxwqWFElQDbmWqeQXPzPjozuR8g2E2jB+/tIH\nGIZwdYSbWvW9W05OHukZ0oQrFSiOfvW2I0Q3lwgXgGCDsbyn1M3MN8GcMgnET2Zv\nk5bdCKrPNJiq0qRGnOlfl/E29rLJN244F+nUtty2yGuPkONsgyx3VSIeQdz0kBim\nUY9mwRWk5h3IheCY5UROtZlU/rEFDUgqm93DcfonmOyZtvcvFm4jBkETTZ+9jqfW\nlISIS418ghBeLDbIZqwvkjuKN8ZUVhbGjz22C3fk005Dg/RlztAWp29kfTOz03M/\nJ1laYatIWx6HJ0Z54L9a5ijXvGIlHJtlffHai6dywQKBgQDvEKWvPfMuL6UNmuHX\nvmx3Cwq7E9l3ISKr7cW4EZJSvQA6ur3mG7e5XUbtOmwLDIqB5fuSunhhl5opKXxI\ndCXkdTivdK1+luBg7ePkh4uyYm4iy1gOd7qs7Hf2djPGODyvP8owi/nHBEzQQISd\nlzjTKJkozAgTFDfZEbReYagSWQKBgQDqOdtwojmE73CQumbDKJl7nCnJKx4bs5/V\ntL3ppo18ybzTqOAX+34KDLlIvGH3gnVUFYEBFBl71H0Z69fblvMs8O+YpjuTBf5M\nm2iIFMDNplRswEgATTD4xBJVimUEjJ+o1F2avtMuuvtvlvrSd1wbZsFGg6ftnPFg\n+UwKaSNUOwKBgQDPW8QqnXRp8j+a7mXIKU6Rbw1uuUfeEeqt8D6Yav1dMLybNFD0\n38PbT3Hu4MbISqd1BpPQcFdsZv/7hhVcDwqy/44cefrmm12iFZWfKobcQo4/Ndt6\nKRXNWgqvx1UfMLZKV+07cJ5FppAt7lhZDMroNQWsIlU6n0XVzYqCdvg+eQKBgCRv\nua5M3ivK37Tz+lZzs2SiR3HO7lEa4UtqYXy+dxYpf+FhTPMOIW5Iym4BODA7sCrT\naY0UZl54ELn+kUbMtamRFYSmn2/gp82dA2bf65pSPKHqS4kYePzJ65w4+jv58EBg\nQOt4sft8BO84Cm7BOKfelUR16KKzHm2aenTIJEHPAoGAciZeOe0jCr3Cyd7mIPDz\nxU8SUIIU2k8+rdoTJnjBO7FV44BH2RvGmUJflSkyon3EF6B7C9u6zcrz84FP+5zt\nJqUse5BWV7RDIZM/7kLJEx6HHat6LA8LIFJFwrEVucKw1LBtZNNdD6KGGV9025NZ\nCpQw+3tvOYr2QrJ2Kw02r3M=\n-----END PRIVATE KEY-----\n",
+  "client_email": "triviagame@trivia-392000.iam.gserviceaccount.com",
+  "client_id": "101166251382898532134",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/triviagame%40trivia-392000.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
+
