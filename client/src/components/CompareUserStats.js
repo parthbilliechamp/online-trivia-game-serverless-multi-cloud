@@ -52,7 +52,7 @@ function CompareUserStats() {
         <Table striped bordered hover>
         <thead>
   <tr  style={{backgroundColor:'rgb(39, 83, 148)',color:'white'}}>
-    <th>Stat</th>
+    <th>Stats</th>
     <th>{userData.user_email}</th>
     <th>{secondUserData.user_email}</th>
   </tr>
@@ -75,8 +75,8 @@ function CompareUserStats() {
   </tr>
   <tr>
     <td><b>Win Ratio</b></td>
-    <td>{userData.user_win_ratio}</td>
-    <td>{secondUserData.user_win_ratio}</td>
+    <td>{parseFloat(userData.user_win_ratio).toFixed(2)}%</td>
+    <td>{parseFloat(secondUserData.user_win_ratio).toFixed(2)}%</td>
   </tr>
 </tbody>
     </Table>

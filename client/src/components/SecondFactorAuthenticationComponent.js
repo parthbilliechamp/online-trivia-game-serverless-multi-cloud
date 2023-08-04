@@ -60,7 +60,7 @@ export default function SecondFactorAuthenticationComponent() {
       .then((data) => {
         updateUserSession();
         localStorage.setItem("userData", JSON.stringify(userData));
-        navigate("/dashboard", { state: { userData: userData } });
+        navigate("/browsegame", { state: { userData: userData } });
       })
       .catch((error) => console.log(error));
   };

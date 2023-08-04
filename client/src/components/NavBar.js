@@ -12,7 +12,7 @@ function AppNavbar() {
       <Navbar.Collapse id="navbarScroll">
         <Nav className="me-auto my-2 my-lg-0" style={{ maxHeight: '100px' }} navbarScroll>
           <Nav.Link style={{color:'white'}}href="/">Home</Nav.Link>
-          <Nav.Link style={{color:'white'}} href="/lobby">Lobby</Nav.Link>
+          <Nav.Link style={{color:'white'}} href="/browsegame">Games</Nav.Link>
           <Nav.Link style={{color:'white'}} href="/stats">View Stats</Nav.Link>
           <Nav.Link style={{color:'white'}} href="/leaderboard">Leaderboard</Nav.Link>
           <Nav.Link style={{color:'white'}} href="/createTeam">Create Team</Nav.Link>
