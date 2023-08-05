@@ -78,6 +78,7 @@ const UserStatsPage = () => {
         userDetailsArray.push(userDetails);
       }
       setTeamMembers(userDetailsArray);
+      console.log(teamMembers);
     } catch (error) {
       console.error("Error fetching data:", error);
     }

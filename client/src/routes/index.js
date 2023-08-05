@@ -12,6 +12,7 @@ import CompareUserStats from "../components/CompareUserStats";
 import TeamsStatisticsPage from "../pages/TeamsStatisticsPage";
 import QuizPage from "../pages/QuizPage";
 import ResultPage from "../pages/ResultPage"
+import AdminDashboard from "../components/AdminDashboard";
 
 import { ToastContainer } from "react-toastify";
 
@@ -54,6 +55,8 @@ const AppRoutes = () => {
         <Route path="/logout" element={<Logout />} />
         <Route path="/addquestion" element={<QuestionForm />} />
         <Route path="/admin" element={<HomePage />} />
+        <Route path="/admindashboard" element={<AdminDashboard />} />
+
 
         <Route path="/getquestion" element={<QuestionList />} />
         <Route

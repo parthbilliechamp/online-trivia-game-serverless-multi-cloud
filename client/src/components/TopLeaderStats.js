@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../assets/styles/TopLeaderStats.css";
-import Card from 'react-bootstrap/Card';
+import { Table, Button } from "react-bootstrap";
 
 function TopLeaderStats() {
   const [userEmails, setUserEmails] = useState([]);
@@ -9,11 +9,11 @@ function TopLeaderStats() {
   const navigate = useNavigate();
 
   const handleTeamClick = (teamName) => {
-    navigate('/team-stats', { state: { team_name: teamName } });
+    navigate("/team-stats", { state: { team_name: teamName } });
   };
 
   const handleUserClick = (userEmail) => {
-    navigate('/user-stats', { state: { user_email: userEmail } });
+    navigate("/user-stats", { state: { user_email: userEmail } });
   };
 
   useEffect(() => {
@@ -57,43 +57,71 @@ function TopLeaderStats() {
   }, []);
 
   return (
-    <div className="container mt-4 justify-content-center" style={{ width: "50%" }}>
+    <div
+      className="container mt-4 justify-content-center"
+      style={{ width: "50%" }}
+    >
       <h1 className="text-center">Top Leader Stats</h1>
       <div>
         <h2 className="text-center">User Emails</h2>
-        <div className="team-names-container">
-          {userEmails.map((userEmail, index) => (
-            <Card key={index} className="mb-4">
-              <Card.Body>
-                <Card.Title>{userEmail}</Card.Title>
-                <button
-                  className="btn btn-primary btn-block"
-                  onClick={() => handleUserClick(userEmail)}
-                >
-                  View User Stats
-                </button>
-              </Card.Body>
-            </Card>
-          ))}
-        </div>
+        <Table striped bordered hover>
+          <thead>
+            <tr style={{ backgroundColor: "rgb(39, 83, 148)", color: "white" }}>
+              <th>User Email</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {userEmails.map((userEmail, index) => (
+              <tr key={index}>
+                <td>{userEmail}</td>
+                <td>
+                  <Button
+                    onClick={() => handleUserClick(userEmail)}
+                    style={{
+                      backgroundColor: "rgb(39, 83, 148)",
+                      color: "white",
+                    }}
+                    block
+                  >
+                    View User Stats
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
       </div>
       <div>
         <h2 className="text-center">Team Names</h2>
-        <div className="team-names-container">
-          {teamNames.map((teamName, index) => (
-            <Card key={index} className="mb-4">
-              <Card.Body>
-                <Card.Title>{teamName}</Card.Title>
-                <button
-                  className="btn btn-primary btn-block"
-                  onClick={() => handleTeamClick(teamName)}
-                >
-                  View Team Stats
-                </button>
-              </Card.Body>
-            </Card>
-          ))}
-        </div>
+
+        <Table striped bordered hover>
+          <thead>
+            <tr style={{ backgroundColor: "rgb(39, 83, 148)", color: "white" }}>
+              <th>User Email</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {teamNames.map((teamName, index) => (
+              <tr key={index}>
+                <td>{teamName}</td>
+                <td>
+                  <Button
+                    onClick={() => handleTeamClick(teamName)}
+                    style={{
+                      backgroundColor: "rgb(39, 83, 148)",
+                      color: "white",
+                    }}
+                    block
+                  >
+                    View Team Stats
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
       </div>
     </div>
   );
