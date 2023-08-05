@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
-const QuestionPage = ({ location }) => {
+
+const QuestionPage = () => {
   const navigate = useNavigate();
   const { gameId } = useParams(); 
   const [questions, setQuestions] = useState([]);
   const [selectedQuestions, setSelectedQuestions] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('');
 
   useEffect(() => {
     fetch(`https://m0x25xomr8.execute-api.us-east-1.amazonaws.com/testing/getquestions`)
@@ -70,7 +72,7 @@ const QuestionPage = ({ location }) => {
       });
   
       if (response.ok) {
-        toast.success('Game created Sucessfully');
+        toast.success('Game created Successfully');
         navigate('/getgames');
       } else {
         const errorData = await response.json();
@@ -82,11 +84,41 @@ const QuestionPage = ({ location }) => {
     }
   };
   
-  
+  // Filter the questions based on the selected category
+  const filteredQuestions = questions.filter(question => {
+    if (selectedCategory === '') {
+      return true;
+    }
+    return question.category === selectedCategory;
+  });
+
+  const handleCategoryFilter = (e) => {
+    setSelectedCategory(e.target.value);
+  };
 
   return (
     <div className="container">
       <h1 className="mt-4">Questions</h1>
+      <div className="mb-3">
+        <label htmlFor="categoryFilter" className="form-label">Filter by Category:</label>
+        <select
+          className="form-select"
+          id="categoryFilter"
+          value={selectedCategory}
+          onChange={handleCategoryFilter}
+        >
+          <option value="">All Categories</option>
+          {/* We don't need to define uniqueCategories as it's not used in this part of the code */}
+          {/* {uniqueCategories.map((category, index) => (
+            <option key={index} value={category}>{category}</option>
+          ))} */}
+          {questions.map((question) => (
+            <option key={question.id} value={question.category}>
+              {question.category}
+            </option>
+          ))}
+        </select>
+      </div>
       <table className="table">
         <thead>
           <tr>
@@ -104,7 +136,7 @@ const QuestionPage = ({ location }) => {
           </tr>
         </thead>
         <tbody>
-          {questions.map((question) => (
+          {filteredQuestions.map((question) => (
             <tr key={question.id}>
               <td>{question.question}</td>
               <td>{question.answer}</td>
