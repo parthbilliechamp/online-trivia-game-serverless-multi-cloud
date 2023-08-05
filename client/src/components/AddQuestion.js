@@ -45,7 +45,7 @@ const QuestionForm = () => {
         const parsedData = JSON.parse(data.body);
         const question_id = parsedData.question_id
         console.log(question_id,"question_id")  
-        const classifyResponse = await fetch(`http://localhost:5005/classify-question/${question_id}`, {
+        const classifyResponse = await fetch(`https://us-central1-trivia-392000.cloudfunctions.net/node_automated/classify-question/${question_id}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'

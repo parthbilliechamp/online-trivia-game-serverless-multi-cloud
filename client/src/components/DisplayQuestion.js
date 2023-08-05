@@ -126,6 +126,13 @@ const QuestionPage = () => {
             </select>
           </div>
         </div>
+        <button
+            className="btn btn-primary"
+            onClick={handleAddQuestion}
+            style={{ padding: '6px 12px', fontSize: '14px' }} // Inline styles for the button
+          >
+            Add Question
+          </button>
         <table className="table">
           <thead>
             <tr>
@@ -165,9 +172,7 @@ const QuestionPage = () => {
           </tbody>
         </table>
       </div>
-      <button className="btn btn-primary" onClick={handleAddQuestion}>
-        Add Question
-      </button>
+      
       <ToastContainer />
     </div>
   );
