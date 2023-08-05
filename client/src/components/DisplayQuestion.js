@@ -131,20 +131,21 @@ const QuestionPage = () => {
             <button
               className="btn btn-primary"
               onClick={handleHome}
-              style={{ padding: '6px 12px', fontSize: '14px' ,marginLeft:'20px'}} // Inline styles for the button
+              style={{ padding: '6px 12px', fontSize: '14px' ,marginLeft:'20px'}} 
             >
               Home
             </button>
           </div>
-        </div>
-        
-        <button
+          <button
             className="btn btn-primary"
             onClick={handleAddQuestion}
-            style={{ padding: '6px 12px', fontSize: '14px' }} // Inline styles for the button
+            style={{ padding: '6px 12px', fontSize: '14px',marginLeft:'20px' }} 
           >
             Add Question
           </button>
+        </div>
+        
+        
         <table className="table">
           <thead>
             <tr>
