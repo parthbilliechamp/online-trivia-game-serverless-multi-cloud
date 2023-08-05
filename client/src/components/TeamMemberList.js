@@ -1,12 +1,14 @@
 import React from "react";
 import TeamMemberItem from "./TeamMemberItem";
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Table,Button } from 'react-bootstrap';
 const TeamMemberList = (props) => {
   const location = useLocation();
-
+  const navigate = useNavigate();
   const receivedData = location.state && location.state.data;
-  console.log('state',receivedData)
+  console.log('state',receivedData);
+
+
   const InviteMemer =
     "https://tnbolwcoaj.execute-api.us-east-1.amazonaws.com/prod/invite_user";
 
@@ -36,7 +38,7 @@ const TeamMemberList = (props) => {
   const handleJoinGame = () => {
     navigate("/browsegame");
   };
-  
+
   return (
     <div>
        <div>
