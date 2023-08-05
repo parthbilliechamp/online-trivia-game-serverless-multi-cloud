@@ -24,7 +24,6 @@ import AddGame from "../components/game/AddGame";
 import UpdateGame from "../components/game/UpdateGame";
 import GameQuestionPage from "../components/game/GameAddQuestion";
 import UpdateGameQuestion from "../components/game/UpdateGameQuestion";
-// import GameStats  from '../components/game_stats/GameStats';
 import HomePage from "../components/HomePage";
 import LoginRedirect from "../components/LoginRedirect";
 import BrowseGamePage from "../pages/BrowseGamePage";
@@ -33,6 +32,7 @@ import InvitedUserPage from "../pages/InvitedUserPage";
 import LobbyPage from "../pages/LobbyPage";
 import Logout from "../components/Logout";
 import TeamMemberList from "../components/TeamMemberList";
+import AdminHomePage from "../components/AdminHomePage"
 
 const AppRoutes = () => {
   return (
@@ -56,6 +56,9 @@ const AppRoutes = () => {
         <Route path="/addquestion" element={<QuestionForm />} />
         <Route path="/admin" element={<HomePage />} />
         <Route path="/admindashboard" element={<AdminDashboard />} />
+        <Route path="/adminhome" element={<AdminHomePage />} />
+
+
 
 
         <Route path="/getquestion" element={<QuestionList />} />

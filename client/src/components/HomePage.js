@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import gamesImage from '../assets/images/trivia1.jpg'; 
 import questionsImage from '../assets/images/question.jpg';
+import triviaImage from '../assets/images/stats.jpg';
+
 
 const HomePage = () => {
   return (
@@ -33,11 +35,11 @@ const HomePage = () => {
         </div>
         <div className="col-md-4 mb-4">
           <div className="card h-100">
-            <img src="path_to_data_image" className="card-img-top custom-img" alt="Data" />
+            <img src={triviaImage} className="card-img-top custom-img" alt="Data" />
             <div className="card-body">
               <h5 className="card-title">Data</h5>
               <p className="card-text">View data and statistics here.</p>
-              <Link to="/admin/data" className="btn btn-primary">Go to Data</Link>
+              <Link to="/admindashboard" className="btn btn-primary">Go to Data</Link>
             </div>
           </div>
         </div>
