@@ -67,7 +67,6 @@ const AppRoutes = () => {
           element={<UpdateQuestion />}
         />
         <Route path="/updategame/:gameId" element={<UpdateGame />} />
-        {/* <Route path="/gamestats" element={<GameStats />} /> */}
 
         <Route path="/getgames" element={<DisplayGames />} />
         <Route path="/gamequestion/:gameId" element={<GameQuestionPage />} />

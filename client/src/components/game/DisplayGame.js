@@ -8,7 +8,9 @@ const GamePage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('');
   const [difficultyFilter, setDifficultyFilter] = useState('');
-
+  const handleHome = () => {
+    navigate('/admin');
+  };
   useEffect(() => {
     fetchGames();
   }, []);
@@ -105,6 +107,15 @@ const GamePage = () => {
             <option value="hard">Hard</option>
           </select>
         </div>
+        <div>
+            <button
+              className="btn btn-primary"
+              onClick={handleHome}
+              style={{ padding: '6px 20px', fontSize: '14px',marginTop:'35px',marginLeft:'20px' }} // Inline styles for the button
+            >
+              Home
+            </button>
+          </div>
       </div>
       <div className="list-group">
         <table className="table">

@@ -8,7 +8,9 @@ const QuestionPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('');
   const [difficultyFilter, setDifficultyFilter] = useState('');
-  
+  const handleHome = () => {
+    navigate('/admin');
+  };
 
   useEffect(() => {
     fetch('https://m0x25xomr8.execute-api.us-east-1.amazonaws.com/testing/getquestions')
@@ -125,7 +127,17 @@ const QuestionPage = () => {
               <option value="hard">Hard</option>
             </select>
           </div>
+          <div>
+            <button
+              className="btn btn-primary"
+              onClick={handleHome}
+              style={{ padding: '6px 12px', fontSize: '14px' ,marginLeft:'20px'}} // Inline styles for the button
+            >
+              Home
+            </button>
+          </div>
         </div>
+        
         <button
             className="btn btn-primary"
             onClick={handleAddQuestion}
