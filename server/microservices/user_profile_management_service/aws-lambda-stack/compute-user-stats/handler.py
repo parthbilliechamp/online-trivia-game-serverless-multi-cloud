@@ -3,7 +3,7 @@ import decimal
 
 def hello(event, context):
     dynamodb = boto3.client('dynamodb')
-    team_stats_table_name = 'Team_Stats'
+    team_stats_table_name = 'User_stats'
     user_stats_table_name = 'UserStats'
     
     for record in event['Records']:

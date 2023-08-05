@@ -15,7 +15,6 @@ def hello(event, context):
     team_members = set()
     
     try:
-        # Read data from Game_Result table
         response = game_table.scan()
         game_results = response['Items']
         

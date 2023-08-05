@@ -20,7 +20,7 @@ def hello(event, context):
     
    
     try:
-        response = table.update_item(
+        table.update_item(
             Key={
                 'Email': email
             },

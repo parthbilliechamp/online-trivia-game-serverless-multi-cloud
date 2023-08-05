@@ -1,53 +1,64 @@
 import json
 import boto3
-import requests
+import urllib3
 
-def publish_to_sns(customer_order):
-    sns_client = boto3.client('sns')
-    sns_topic_arn = "arn:aws:sns:us-east-1:227165718467:CustomerOrderTopic"
-    
-    sns_client.publish(
-        TopicArn=sns_topic_arn,
-        Message=str(customer_order)
-    )
+def publish_to_sns(email):
+    try:
+        sns_client = boto3.client('sns')
+        sns_topic_arn = "arn:aws:sns:us-east-1:227165718467:UsersAchievement"
+        
+        message = "Congrats you in the top 5 rankings of the leaderboard!"
+        subject = "Congratulations"
+        
+        response = sns_client.publish(
+            TopicArn=sns_topic_arn,
+            Message=message,
+            Subject=subject,
+            MessageAttributes={
+                "email": {
+                    "DataType": "String",
+                    "StringValue": email
+                }
+            }
+        )
+        
+        print(f"Message sent to SNS topic for {email}: {response['MessageId']}")
+    except Exception as e:
+        print(e)
 
 def fetch_user_emails():
+    url = "https://s90mn5ladf.execute-api.us-east-1.amazonaws.com/topusers"
+    http = urllib3.PoolManager()
+    data = http.request('GET', url).data
+    return data
+
+def add_subscriber_to_sns_topic(email):
     try:
-        url = "https://s90mn5ladf.execute-api.us-east-1.amazonaws.com/topusers"
-        response = requests.get(url)
+        sns_client = boto3.client('sns')
+        sns_topic_arn = "arn:aws:sns:us-east-1:227165718467:UsersAchievement"
         
-        if response.ok:
-            data = response.json()
-            return data["user_emails"]
-        else:
-            raise ValueError("Failed to fetch user emails")
+        response = sns_client.subscribe(
+            TopicArn=sns_topic_arn,
+            Protocol="email",
+            Endpoint=email
+        )
+        
+        print(f"Subscriber added to SNS topic for {email}: {response['SubscriptionArn']}")
+    except Exception as e:
+        print(e)
 
-    except Exception as error:
-        print("Error fetching user emails:", error)
+def lambda_handler(event, context):
+    user_emails = fetch_user_emails()
+    user_emails = json.loads(user_emails.decode('utf-8'))
 
-
-
-def hello(event, context):
-    body = {
-        "message": "Go Serverless v1.0! Your function executed successfully!",
-        "input": event
-    }
+    for email in user_emails:
+        email = email.strip()
+        add_subscriber_to_sns_topic(email)
+        publish_to_sns(email)
 
     response = {
         "statusCode": 200,
-        "body": json.dumps(body)
+        "body": json.dumps(user_emails)
     }
-
-    user_emails = fetch_user_emails()
-    print(user_emails)
 
     return response
-
-    # Use this code if you don't use the http event with the LAMBDA-PROXY
-    # integration
-    """
-    return {
-        "message": "Go Serverless v1.0! Your function executed successfully!",
-        "event": event
-    }
-    """

@@ -22,7 +22,6 @@ def hello(event, context):
     
     while queryExecution['QueryExecution']['Status']['State'] not in ['SUCCEEDED', 'FAILED', 'CANCELLED']:
         queryExecution = athena_client.get_query_execution(QueryExecutionId=queryStart['QueryExecutionId'])
-        time.sleep(2)
     
     result_response = athena_client.get_query_results(QueryExecutionId=queryStart['QueryExecutionId'])
     result_data = result_response['ResultSet']['Rows'][1:]
