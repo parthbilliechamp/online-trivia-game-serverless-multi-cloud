@@ -1,0 +1,388 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Resources:  
+  AddGameLambda:
+    Type: "AWS::Lambda::Function"
+    Properties:
+      Runtime: "nodejs14.x"
+      Handler: "index.handler"
+      Role: "arn:aws:iam::710043768495:role/LabRole"
+      Code:
+        S3Bucket: "firstlambdatry"
+        S3Key: "addgame.zip"
+      FunctionName: AddGameLambda
+  EditGameLambda:
+    Type: "AWS::Lambda::Function"
+    Properties:
+      Runtime: "nodejs14.x"
+      Handler: "index.handler"
+      Role: "arn:aws:iam::710043768495:role/LabRole"
+      Code:
+        S3Bucket: "firstlambdatry"
+        S3Key: "editgame.zip"
+      FunctionName: EditGameLambda
+      Timeout: 60
+
+  UpdateGame:
+    Type: "AWS::Lambda::Function"
+    Properties:
+      Runtime: "nodejs14.x"
+      Handler: "index.handler"
+      Role: "arn:aws:iam::710043768495:role/LabRole"
+      Code:
+        S3Bucket: "firstlambdatry"
+        S3Key: "update.zip"
+      FunctionName: UpdateGame
+      Timeout: 5
+    
+  DeleteGame:
+    Type: "AWS::Lambda::Function"
+    Properties:
+      Runtime: "nodejs14.x"
+      Handler: "index.handler"
+      Role: "arn:aws:iam::710043768495:role/LabRole"
+      Code:
+        S3Bucket: "firstlambdatry"
+        S3Key: "delete.zip"
+      FunctionName: DeleteGame
+      Timeout: 60
+
+  GetSpecificGame:
+    Type: "AWS::Lambda::Function"
+    Properties:
+      Runtime: "nodejs14.x"
+      Handler: "index.handler"
+      Role: "arn:aws:iam::710043768495:role/LabRole"
+      Code:
+        S3Bucket: "firstlambdatry"
+        S3Key: "getspecificgame.zip"
+      FunctionName: GetSpecificGame
+      Timeout: 60
+
+  GetAllGame:
+    Type: "AWS::Lambda::Function"
+    Properties:
+      Runtime: "nodejs14.x"
+      Handler: "index.handler"
+      Role: "arn:aws:iam::710043768495:role/LabRole"
+      Code:
+        S3Bucket: "firstlambdatry"
+        S3Key: "getallgame.zip"
+      FunctionName: GetAllGame
+      Timeout: 60
+
+
+  AddQuestionLambda:
+    Type: "AWS::Lambda::Function"
+    Properties:
+      Runtime: "nodejs14.x"
+      Handler: "index.handler"
+      Role: "arn:aws:iam::710043768495:role/LabRole"
+      Code:
+        S3Bucket: "firstlambdatry"
+        S3Key: "addquestion.zip"
+      FunctionName: AddQuestionLambda
+  EditQuestionLambda:
+    Type: "AWS::Lambda::Function"
+    Properties:
+      Runtime: "nodejs14.x"
+      Handler: "index.handler"
+      Role: "arn:aws:iam::710043768495:role/LabRole"
+      Code:
+        S3Bucket: "firstlambdatry"
+        S3Key: "editquestion.zip"
+      FunctionName: EditQuestionLambda
+      Timeout: 60
+
+  UpdateQuestion:
+    Type: "AWS::Lambda::Function"
+    Properties:
+      Runtime: "nodejs14.x"
+      Handler: "index.handler"
+      Role: "arn:aws:iam::710043768495:role/LabRole"
+      Code:
+        S3Bucket: "firstlambdatry"
+        S3Key: "updatequestion.zip"
+      FunctionName: UpdateQuestion
+      Timeout: 5
+    
+  DeleteQuestion:
+    Type: "AWS::Lambda::Function"
+    Properties:
+      Runtime: "nodejs14.x"
+      Handler: "index.handler"
+      Role: "arn:aws:iam::710043768495:role/LabRole"
+      Code:
+        S3Bucket: "firstlambdatry"
+        S3Key: "deletequestion.zip"
+      FunctionName: DeleteQuestion
+      Timeout: 60
+
+  GetSepcificQuestion:
+    Type: "AWS::Lambda::Function"
+    Properties:
+      Runtime: "nodejs14.x"
+      Handler: "index.handler"
+      Role: "arn:aws:iam::710043768495:role/LabRole"
+      Code:
+        S3Bucket: "firstlambdatry"
+        S3Key: "getspecificquestion.zip"
+      FunctionName: GetSpecificQuestion
+      Timeout: 60
+
+  GetAllQuestion:
+    Type: "AWS::Lambda::Function"
+    Properties:
+      Runtime: "nodejs14.x"
+      Handler: "index.handler"
+      Role: "arn:aws:iam::710043768495:role/LabRole"
+      Code:
+        S3Bucket: "firstlambdatry"
+        S3Key: "getaallquestion.zip"
+      FunctionName: GetAllQuestion
+      Timeout: 60
+ 
+
+#https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-httpapi.html
+# Creating a API
+  TriviaTitan:
+    Type: "AWS::ApiGatewayV2::Api"
+    Properties:
+      Name: "Serverless"
+      ProtocolType: "HTTP"
+      CorsConfiguration:
+        AllowMethods:
+          - "POST"
+          - "GET"
+          - "DELETE"
+          - "PUT"
+        AllowOrigins:
+          - "*"
+        AllowHeaders:
+          - "*"
+  #Defines a function permisson form invoking Lambda
+  LambdaExecutionPermission:
+    Type: "AWS::Lambda::Permission"
+    Properties:
+      FunctionName: !Ref AddGameLambda
+      Action: "lambda:InvokeFunction"
+      Principal: "apigateway.amazonaws.com"
+      SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${TriviaTitan}/*/*"
+  #Maps the API with the Lambda Function
+  #https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apitgateway-method-integration.html
+  FunctionIntegration:
+    Type: "AWS::ApiGatewayV2::Integration"
+    DependsOn:
+      - AddGame
+    Properties:
+      ApiId: !Ref TriviaTitan
+      IntegrationType: "AWS_PROXY"
+      IntegrationUri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${AddGame.Arn}/invocations"
+      PayloadFormatVersion: "2.0"
+  # Creating a route for every lambda
+  MyLambdaRoute:
+    Type: "AWS::ApiGatewayV2::Route"
+    DependsOn:
+      - FunctionIntegration
+    Properties:
+      ApiId: !Ref TriviaTitan
+      RouteKey: "POST /addgame"
+      Target: !Sub "integrations/${FunctionIntegration}"
+  #building a deployment stage
+  APIGatewayStage:
+    Type: "AWS::ApiGatewayV2::Stage"
+    Properties:
+      ApiId: !Ref TriviaTitan
+      StageName: "$default"
+      AutoDeploy: true
+  
+  EditGameLambdaPermission:
+    Type: "AWS::Lambda::Permission"
+    Properties:
+      FunctionName: !Ref EditGameLambda
+      Action: "lambda:InvokeFunction"
+      Principal: "apigateway.amazonaws.com"
+      SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${TriviaTitan}/*/*"
+
+  EditGameFunctionIntegration:
+    Type: "AWS::ApiGatewayV2::Integration"
+    DependsOn:
+      - EditGameLambda
+    Properties:
+      ApiId: !Ref TriviaTitan
+      IntegrationType: "AWS_PROXY"
+      IntegrationUri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${EditGameLambda.Arn}/invocations"
+      PayloadFormatVersion: "2.0"
+
+  MyEditGameLambdaRoute:
+    Type: "AWS::ApiGatewayV2::Route"
+    DependsOn:
+      -  EditGameFunctionIntegration
+    Properties:
+      ApiId: !Ref TriviaTitan
+      RouteKey: "PUT /editgame"
+      Target: !Sub "integrations/${EditGameFunctionIntegration}"
+
+  
+  GetAllGamePermission:
+    Type: "AWS::Lambda::Permission"
+    Properties:
+      FunctionName: !Ref GetAllGameLambda
+      Action: "lambda:InvokeFunction"
+      Principal: "apigateway.amazonaws.com"
+      SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${TriviaTitan}/*/*"
+
+  GetAllGameFunctionIntegration:
+    Type: "AWS::ApiGatewayV2::Integration"
+    DependsOn:
+      - GetAllGameLambda
+    Properties:
+      ApiId: !Ref TriviaTitan
+      IntegrationType: "AWS_PROXY"
+      IntegrationUri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetAllLGameambda.Arn}/invocations"
+      PayloadFormatVersion: "2.0"
+
+  MyGetAllGameLambdaRoute:
+    Type: "AWS::ApiGatewayV2::Route"
+    DependsOn:
+      -  EditGameFunctionIntegration
+    Properties:
+      ApiId: !Ref TriviaTitan
+      RouteKey: "GET /getgames"
+      Target: !Sub "integrations/${GetAllGameFunctionIntegration}"
+
+  LambdaAddQuestion:
+    Type: "AWS::Lambda::Permission"
+    Properties:
+      FunctionName: !Ref AddQuestionLambda
+      Action: "lambda:InvokeFunction"
+      Principal: "apigateway.amazonaws.com"
+      SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${TriviaTitan}/*/*"
+
+  AddQuestionFunctionIntegration:
+    Type: "AWS::ApiGatewayV2::Integration"
+    DependsOn:
+      - AddQuestionLambda
+    Properties:
+      ApiId: !Ref TriviaTitan
+      IntegrationType: "AWS_PROXY"
+      IntegrationUri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${AddQuestionLambda.Arn}/invocations"
+      PayloadFormatVersion: "2.0"
+
+  MyAddQuestionLambdaRoute:
+    Type: "AWS::ApiGatewayV2::Route"
+    DependsOn:
+      -AddQuestionFunctionIntegration
+    Properties:
+      ApiId: !Ref TriviaTitan
+      RouteKey: "POST /addquestion"
+      Target: !Sub "integrations/${AddQuestionFunctionIntegration}"
+
+  
+  LambdaExecutionPermissionGetQuestion:
+    Type: "AWS::Lambda::Permission"
+    Properties:
+      FunctionName: !Ref GetQuestionLambda
+      Action: "lambda:InvokeFunction"
+      Principal: "apigateway.amazonaws.com"
+      SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${TriviaTitan}/*/*"
+
+  GetQuestionFunctionIntegration:
+    Type: "AWS::ApiGatewayV2::Integration"
+    DependsOn:
+      - GetQuestionLambda
+    Properties:
+      ApiId: !Ref TriviaTitan
+      IntegrationType: "AWS_PROXY"
+      IntegrationUri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetQuestionLambda.Arn}/invocations"
+      PayloadFormatVersion: "2.0"
+
+  MyGetQuestionLambdaRoute:
+    Type: "AWS::ApiGatewayV2::Route"
+    DependsOn:
+      - GetQuestionFunctionIntegration
+    Properties:
+      ApiId: !Ref TriviaTitan
+      RouteKey: "GET /getquestions"
+      Target: !Sub "integrations/${GetQuestionFunctionIntegration}"
+
+  LambdaExecutionPermissionGetspecificquestion:
+    Type: "AWS::Lambda::Permission"
+    Properties:
+      FunctionName: !Ref GetSpecificQuestion
+      Action: "lambda:InvokeFunction"
+      Principal: "apigateway.amazonaws.com"
+      SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${TriviaTitan}/*/*"
+
+  GetspecificquestionFunctionIntegration:
+    Type: "AWS::ApiGatewayV2::Integration"
+    DependsOn:
+      - LambdaExecutionPermissionGetspecificquestion
+    Properties:
+      ApiId: !Ref TriviaTitan
+      IntegrationType: "AWS_PROXY"
+      IntegrationUri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetSpecificQuestion.Arn}/invocations"
+      PayloadFormatVersion: "2.0"
+
+  MyGetSpecificQuestionRoute:
+    Type: "AWS::ApiGatewayV2::Route"
+    DependsOn:
+      - getspecificgameFunctionIntegration
+    Properties:
+      ApiId: !Ref TriviaTitan
+      RouteKey: "GET /question/{question_id}"
+      Target: !Sub "integrations/${getspecificgameFunctionIntegration}"
+
+  LambdaExecutionPermissionUpdateQuestion:
+    Type: "AWS::Lambda::Permission"
+    Properties:
+      FunctionName: !Ref UpdateQuestionLambda
+      Action: "lambda:InvokeFunction"
+      Principal: "apigateway.amazonaws.com"
+      SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${TriviaTitan}/*/*"
+
+  UpdateQuestionFunctionIntegration:
+    Type: "AWS::ApiGatewayV2::Integration"
+    DependsOn:
+      - UpdateQuestion
+    Properties:
+      ApiId: !Ref TriviaTitan
+      IntegrationType: "AWS_PROXY"
+      IntegrationUri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${UpdateQuestion.Arn}/invocations"
+      PayloadFormatVersion: "2.0"
+
+  UpdateQuestionGameRoute:
+    Type: "AWS::ApiGatewayV2::Route"
+    DependsOn:
+      - UpdateQuestionFunctionIntegration
+    Properties:
+      ApiId: !Ref TriviaTitan
+      RouteKey: "PUT /editquestion/{question_id}"
+      Target: !Sub "integrations/${UpdateQuestionFunctionIntegration}"
+  
+  LambdaExecutionPermissionDeleteQuestion:
+    Type: "AWS::Lambda::Permission"
+    Properties:
+      FunctionName: !Ref DeleteQuestionLambda
+      Action: "lambda:InvokeFunction"
+      Principal: "apigateway.amazonaws.com"
+      SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${TriviaTitan}/*/*"
+
+  DeleteQuestionFunctionIntegration:
+    Type: "AWS::ApiGatewayV2::Integration"
+    Properties:
+      ApiId: !Ref TriviaTitan
+      IntegrationType: "AWS_PROXY"
+      IntegrationUri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DeleteQuestion.Arn}/invocations"
+      PayloadFormatVersion: "2.0"
+
+  DeleteQuestionLambdaRoute:
+    Type: "AWS::ApiGatewayV2::Route"
+    DependsOn:
+      - DeleteQuestionFunctionIntegration
+    Properties:
+      ApiId: !Ref TriviaTitan
+      RouteKey: "DELETE /question/{question_id}"
+      Target: !Sub "integrations/${DeleteQuestionFunctionIntegration}"
+
+  
