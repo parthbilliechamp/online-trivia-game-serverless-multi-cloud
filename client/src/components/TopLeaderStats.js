@@ -115,7 +115,7 @@ function TopLeaderStats() {
                     }}
                     block
                   >
-                    View User Stats
+                    View Team Stats
                   </Button>
                 </td>
               </tr>

@@ -6,12 +6,12 @@ function Test() {
 
   useEffect(() => {
     const userData = {
-      sub: "443",
+      sub: "7478c468-a061-7014-b965-f389930bf5f4",
       email_verified: "true",
       phone_number_verified: "false",
       phone_number: "+17822222222",
       email: "pr514457@dal.ca",
-      username: "44389448-40c1-7028-1127-73f4e5db0155",
+      username: "7478c468-a061-7014-b965-f389930bf5f4",
     };
     navigate("/sfa", { state: { userData: userData } });
   }, []);
