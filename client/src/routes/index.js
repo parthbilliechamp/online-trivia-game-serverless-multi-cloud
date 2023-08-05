@@ -31,6 +31,7 @@ import CreateTeamPage from "../pages/CreateTeamPage";
 import InvitedUserPage from "../pages/InvitedUserPage";
 import LobbyPage from "../pages/LobbyPage";
 import Logout from "../components/Logout";
+import KommunicateChat from "../components/Chat";
 import TeamMemberList from "../components/TeamMemberList";
 
 const AppRoutes = () => {
@@ -54,6 +55,7 @@ const AppRoutes = () => {
         <Route path="/logout" element={<Logout />} />
         <Route path="/addquestion" element={<QuestionForm />} />
         <Route path="/admin" element={<HomePage />} />
+        <Route path="/aihelp" element={<KommunicateChat />} />
 
         <Route path="/getquestion" element={<QuestionList />} />
         <Route
