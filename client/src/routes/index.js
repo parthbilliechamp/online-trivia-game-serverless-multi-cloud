@@ -31,6 +31,7 @@ import CreateTeamPage from "../pages/CreateTeamPage";
 import InvitedUserPage from "../pages/InvitedUserPage";
 import LobbyPage from "../pages/LobbyPage";
 import Logout from "../components/Logout";
+import KommunicateChat from "../components/Chat";
 import TeamMemberList from "../components/TeamMemberList";
 import AdminHomePage from "../components/AdminHomePage"
 
@@ -60,6 +61,7 @@ const AppRoutes = () => {
 
 
 
+        <Route path="/aihelp" element={<KommunicateChat />} />
 
         <Route path="/getquestion" element={<QuestionList />} />
         <Route

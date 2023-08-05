@@ -16,6 +16,7 @@ function AppNavbar() {
           <Nav.Link style={{color:'white'}} href="/stats">View Stats</Nav.Link>
           <Nav.Link style={{color:'white'}} href="/leaderboard">Leaderboard</Nav.Link>
           <Nav.Link style={{color:'white'}} href="/createTeam">Create Team</Nav.Link>
+          <Nav.Link style={{color:'white'}} href="/aihelp">AI Help</Nav.Link>
 
         </Nav>
         <Form className="d-flex">
