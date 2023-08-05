@@ -83,7 +83,9 @@ const QuestionForm = () => {
       toast.error('Error adding question');
     }
   };
-  
+      //used bootstrap and card view and card body
+    //https://getbootstrap.com/docs/5.0/layout/containers/
+    //https://getbootstrap.com/docs/5.0/components/card/
   return (
     <div className="container py-6">
       <div className="row justify-content-center align-items-center" style={{ minHeight: '100vh' }}>

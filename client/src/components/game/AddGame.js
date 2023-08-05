@@ -34,6 +34,7 @@ const AddGamePage = () => {
         toast.error('End Time cannot be less than Start Time.');
         return;
       }
+      //Posting the details to the API
       const response = await fetch('https://dtudhiworh.execute-api.us-east-1.amazonaws.com/testing/addgame', {
         method: 'POST',
         headers: {
@@ -84,7 +85,9 @@ const AddGamePage = () => {
     } else {
     }
   }
-
+    //used bootstrap and card view and card body
+    //https://getbootstrap.com/docs/5.0/layout/containers/
+    //https://getbootstrap.com/docs/5.0/components/card/
   return (
     <div className="container py-6">
       <h1 className="mt-4" style={{ fontSize: '1.5rem' }}>Add Game</h1>
