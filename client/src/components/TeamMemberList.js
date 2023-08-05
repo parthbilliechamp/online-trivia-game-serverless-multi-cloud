@@ -32,6 +32,11 @@ const TeamMemberList = (props) => {
       console.log(e);
     }
   };
+
+  const handleJoinGame = () => {
+    navigate("/browsegame");
+  };
+  
   return (
     <div>
        <div>
@@ -101,6 +106,18 @@ const TeamMemberList = (props) => {
           </button>
         </>
       ))} */}
+
+
+<Button
+                        onClick={handleJoinGame}
+                        style={{
+                          backgroundColor: "rgb(39, 83, 148)",
+                          color: "white",
+                        }}
+                      >
+                        Join Games
+                      </Button>
+
     </div>
   );
 };

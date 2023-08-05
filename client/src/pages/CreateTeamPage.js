@@ -78,11 +78,7 @@ const CreateTeamPage = () => {
     const data = { allUsers, teamId, teamName, adminUserId };
     console.log("dataaa", data);
     navigate("/InviteUser", { state: { data } });
-  };
-
-  const handleJoinGame = () => {
-    navigate("/browsegame");
-  };
+    };
 
   return (
     <div>
@@ -150,15 +146,7 @@ const CreateTeamPage = () => {
                         Invite Users
                       </Button>
 
-                      <Button
-                        onClick={handleJoinGame}
-                        style={{
-                          backgroundColor: "rgb(39, 83, 148)",
-                          color: "white",
-                        }}
-                      >
-                        Join Games
-                      </Button>
+                      
                     </Card.Text>
                     {/* <Button variant="primary">Go somewhere</Button> */}
                   </Card.Body>
