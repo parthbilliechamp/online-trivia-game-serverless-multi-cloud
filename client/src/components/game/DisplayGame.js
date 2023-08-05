@@ -111,11 +111,17 @@ const GamePage = () => {
             <button
               className="btn btn-primary"
               onClick={handleHome}
-              style={{ padding: '6px 20px', fontSize: '14px',marginTop:'35px',marginLeft:'20px' }} // Inline styles for the button
+              style={{ padding: '6px 20px', fontSize: '14px',marginTop:'35px',marginLeft:'20px' }} 
             >
               Home
             </button>
           </div>
+          <div>
+          <button className="btn btn-primary" onClick={handleAddGame} style={{ padding: '6px 20px', fontSize: '14px',marginTop:'35px',marginLeft:'20px' }} 
+            >
+        Add Game
+      </button>
+      </div>
       </div>
       <div className="list-group">
         <table className="table">
@@ -152,9 +158,7 @@ const GamePage = () => {
           </tbody>
         </table>
       </div>
-      <button className="btn btn-primary" onClick={handleAddGame}>
-        Add Game
-      </button>
+      
       <ToastContainer /> 
 
     </div>
