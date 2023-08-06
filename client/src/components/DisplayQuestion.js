@@ -82,7 +82,9 @@ const QuestionPage = () => {
       (difficultyFilter === '' || question.difficulty?.toLowerCase() === difficultyFilter.toLowerCase())
     );
   });
-
+    //used bootstrap and card view and card body
+    //https://getbootstrap.com/docs/5.0/layout/containers/
+    //https://getbootstrap.com/docs/5.0/components/card/
   return (
     <div className="container">
       <h1 className="mt-4">Questions</h1>

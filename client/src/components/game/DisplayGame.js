@@ -15,6 +15,7 @@ const GamePage = () => {
     fetchGames();
   }, []);
 
+// Fetching all games and showing it to admin
   const fetchGames = () => {
     fetch('https://v33gsm4qr2.execute-api.us-east-1.amazonaws.com/testing/getgames')
       .then(response => response.json())
@@ -32,7 +33,7 @@ const GamePage = () => {
     navigate(`/updategame/${gameId}`);
     console.log('Update game with ID:', gameId);
   };
-
+// Deleting the Game
   const handleDelete = (gameId) => {
     const confirmed = window.confirm('Are you sure you want to delete the game?');
     if (confirmed) {
@@ -80,7 +81,9 @@ const GamePage = () => {
     return nameMatch && categoryMatch && difficultyMatch;
   });
   
-
+    //used bootstrap and card view and card body
+    //https://getbootstrap.com/docs/5.0/layout/containers/
+    //https://getbootstrap.com/docs/5.0/components/card/
   return (
     <div className="container">
       <h1 className="mt-4">Games</h1>

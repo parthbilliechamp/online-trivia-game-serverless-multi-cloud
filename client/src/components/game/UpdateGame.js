@@ -67,7 +67,9 @@ const UpdateGamePage = () => {
         toast.error('Error updating question');
       });
   };
-
+    //used bootstrap and card view and card body
+    //https://getbootstrap.com/docs/5.0/layout/containers/
+    //https://getbootstrap.com/docs/5.0/components/card/
   return (
     <div className="container mt-4">
       <div className="row">

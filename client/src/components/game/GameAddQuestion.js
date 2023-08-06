@@ -84,6 +84,7 @@ const QuestionPage = () => {
     }
   };
   
+<<<<<<< Updated upstream
   // Filter the questions based on the selected category
   const filteredQuestions = questions.filter(question => {
     if (selectedCategory === '') {
@@ -95,6 +96,11 @@ const QuestionPage = () => {
   const handleCategoryFilter = (e) => {
     setSelectedCategory(e.target.value);
   };
+=======
+     //used bootstrap and card view and card body
+    //https://getbootstrap.com/docs/5.0/layout/containers/
+    //https://getbootstrap.com/docs/5.0/components/card/ 
+>>>>>>> Stashed changes
 
   return (
     <div className="container">
