@@ -25,7 +25,7 @@ const KommunicateChat = () => {
     }
   }, []);
 
-  return null; // Return null since this component doesn't render anything
+  return null;
 };
 
 export default KommunicateChat;
