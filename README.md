@@ -18,6 +18,7 @@
   - [Chat Bot for Virtual assistance](#Chat-Bot-for-Virtual-assistance)
   - [Admin Dashboard](#Admin-Dashboard)
   - [Game Module](#Game-Module)
+  - [Notifications and Alerts](#Notifications-and-Alerts)
 - [Deployment Pipeline](#deployment-pipeline)
 - [Project Demo](#project-demo)
 - [Author: 👤 **Parth Champaneria**](#author--parth-champaneria)
@@ -122,6 +123,14 @@ Create a multi-cloud serverless trivia game that enables real-time team competit
 
 - [Amazon DynamoDB]
   >> For storing the game-related data.
+
+## Notifications and Alerts
+
+- [AWS SQS]
+  >> Buffer to store the notification events
+
+- [AWS SNS]
+  >> Managing user subscriptions and sending notifications to the users
 
 # Deployment Pipeline
 
