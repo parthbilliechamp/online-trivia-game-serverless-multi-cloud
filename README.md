@@ -17,7 +17,7 @@
   - [Storage](#storage)
   - [Visualization](#visualization)
 - [Deployment Pipeline](#deployment-pipeline)
-- [Project Demo](#project-dem0)
+- [Project Demo](#project-demo)
 - [Author: 👤 **Parth Champaneria**](#author--parth-champaneria)
 - [Show your support](#show-your-support)
 
@@ -31,7 +31,7 @@ Create a multi-cloud serverless trivia game that enables real-time team competit
 # Project architecture
 
 <p align="center">
-<img width="640px"  src="https://parthchampaneria-portfolio.s3.amazonaws.com/architecture.png" alt="">
+<img width="720px"  src="https://projects-mediahouse.s3.amazonaws.com/trivia-serverless/architecture.png" alt="">
 <p>
 
 
