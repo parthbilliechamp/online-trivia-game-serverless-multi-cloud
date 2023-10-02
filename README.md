@@ -11,7 +11,7 @@
 - [Project Architecture](#project-architecture)
 - [Tools and Technologies used](#tools)
 - [Services used](#services-used)
-  - [Connect](#connect)
+  - [User Authentication and Authorization](#User-Authentication-and-Authorization)
   - [Buffer](#buffer)
   - [Processing](#processing)
   - [Storage](#storage)
@@ -51,6 +51,9 @@ Create a multi-cloud serverless trivia game that enables real-time team competit
       
   - [Visual Studio Code](https://code.visualstudio.com/)
     - IDE for development
+   
+  - [Serverless Framework](https://www.serverless.com/)
+    - For deployment of Lambda and GCP functions 
 
 
 # Services used
