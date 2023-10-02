@@ -8,8 +8,8 @@
 <p>
 
 - [Introduction & Goals](#introduction--goals)
-- [Architecture Diagram] (#architecture)
-- [Used Tools](#used-tools)
+- [Tools used](#tools)
+- [Services used](#services-used)
   - [Connect](#connect)
   - [Buffer](#buffer)
   - [Processing](#processing)
@@ -33,9 +33,7 @@
 Create a multi-cloud serverless trivia game that enables real-time team competition, personalized questions, and analytics for administrators to enhance user engagement and gameplay.
 
 
-**Tools:**
-
-- **Local:**
+# Tools
   
   - [Visual Studio Code](https://code.visualstudio.com/)
     - IDE for development
@@ -50,7 +48,7 @@ Create a multi-cloud serverless trivia game that enables real-time team competit
     - For working with AWS and GCP services
 
 
-# Used Tools
+# Services used
 
 ## User Authentication and Authorization
 
