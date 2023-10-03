@@ -145,7 +145,8 @@ A CI/CD pipeline has been configured for deploying the React-based frontend appl
 - The project demo can be viewed [here](https://projects-mediahouse.s3.amazonaws.com/trivia-serverless/demo.mp4)
 
 
-# Author: 👤 **Parth Champaneria**
+# Author
+- 👤 **Parth Champaneria**
 
 # Show your support
 
